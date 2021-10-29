@@ -353,4 +353,121 @@ Promise.reject('错了').catch((e)=> {
     }, 5000);
     //输出 1 5s后输出4
     ```
-2. import 
+2. import
+   使用export命令定义了模块的对外接口以后，其他 JS 文件就可以通过import命令加载这个模块。 
+   1. 导入时大括号内的名称必须与模块导出时变量的名字一样,可以通过as关键字为重新命名导出的变量。
+   ```
+   //module.js
+   export let name = '123'
+   //import.js
+   import {name} from './module.js
+   import {name as newName} from './module.js
+   ```
+   2. 不能修改导入的变量，因为它们是只读的。若导入的变量是一个对象，则可以修改其属性，但是不建议这么做。
+   ```
+   //module.js
+   export let name = '123'
+   export let o = {
+       name:'123'
+   }
+   //import.js
+   import {name,o} from './module.js
+   o.name = '234'//合法
+   name = '234'// Syntax Error : 'a' is read-only;
+   ```
+   3. import带有变量提升
+   ```
+   //module.js
+   export let name = '123'
+   //import.js
+   console.log(name)//123 合法操作
+   import {name} from './module.js
+   ```
+   4. import是静态执行不能使用表达式和变量
+   ```
+   //module.js
+   export let name = '123'
+   //import.js
+   let moduleName ='./module.js'
+   import {name} from moduleName //报错
+
+   import {'na'+'me'} from './module.js //报错
+   ```
+   5. CommonJS 与 ES6模块最好不要一起使用，即使不会报错。因为import在静态解析阶段执行，会早于require执行，可能会出现非预期结果
+   ```
+    require('core-js/modules/es6.symbol');
+    require('core-js/modules/es6.promise');
+    import React from 'React';
+   ```
+   6. 通过*关键字可以整体加载,不允许运行的时候改变导入的变量
+   ```
+    //module.js
+    let a = 1
+    let b = 2
+    export { a, b }
+    //import.js
+    import * as o from './module1.js'
+    console.log(o) // {a:1,b:2}
+
+    o.a = 3 //报错 Cannot assign to read only property 'a' of object '[object Module]'
+   ```
+   7. export default 默认导出，通过export default 导出的模块，导入时可以任意命名。且一个模块只能使用一次export default
+   ```
+    //module.js
+    let a = 1
+    let b = 2
+    export default {a,b}
+    //import.js
+    import ab from './module1.js'
+    console.log(ab) // {a:1,b:2}
+
+    //module.js
+    export default function foo(){} // foo视同匿名函数，foo函数名在模块外无效。
+    //import.js
+    import fo from './module.js'
+   ```
+   8. import export 复合使用
+   ```
+    //module.js
+    export {a,b} from './module_1.js'
+    //等同于
+    import {a,b} from './module_1.js'
+    export {a,b}
+
+    //还有以下几种情况
+    export {a as aa} from './module_1.js'
+
+    export * from './module_1.js'
+
+    export {default} from './module_1.js'
+
+    export {a as default } from './module_1.js'
+    //等同于
+    import {a} from './module_1.js'
+    export default a
+
+    export {default as a} from './module_1.js'
+
+    export * as a from './module_1.js'
+    // 等同于
+    import * as a from "mod";
+    export {a};
+   ```
+   9. import()函数，支持动态加载模块。可以在运行时异步加载模块。
+   ```
+   //直接使用
+   import('./testModule.js').then(r=>console.log(r)).catch(e=>console.log('模块加载失败'))
+   
+   
+   //用在async函数中
+   async function foc(){
+    let o = await import('./testModule.js')
+    return o
+   }
+   foc().then(r => console.log(r))
+   
+   //用在if语句中，可以直接解构返回的模块
+   if(判断){
+       import('./testModule.js').then(({a,b}) => console.log(a))
+   }
+   ```
