@@ -105,3 +105,67 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
         let strLength_1: number = (<string>str).length // 8
      ```
 ### 2. 变量声明
+
+1. let 和 const 应用场景
+   所有变量除了你计划去修改的都应该使用const。 基本原则就是如果一个变量不需要对它写入，那么其它使用这些代码的人也不能够写入它们，并且要思考为什么会需要对这些变量重新赋值。 使用 const也可以让我们更容易的推测数据的流动。
+2. 解构
+   1. 数组解构
+   ```
+    let arr = [1,2,3]
+    let [a, b, c] = arr
+    let [d, ...rest] = [1,2,3]
+    let [,e,,f] = [4,5,6,7,8]
+    //a:1, b:2, c:3, rest:[2,3], e:5, f:7
+
+    //用于函数
+    function foo([a,b]:[number,number])
+    foo([2,3])
+
+
+   ```
+   2. 解构对象
+   ```
+    let o = {
+        a: 'foo',
+        b: 12,
+        c: 'bar'
+    };
+    let { a, b } = o;
+    let {b, ...rest} = o
+    console.log(rest)// {b:12, c:'bar}
+   ```
+   3. 属性重命名
+   ```
+    let {a:aa, b:bb} : {a:number, b:string} = {a:123, b:'123'}
+    console.log(aa, bb) // 123,'123'
+   ```
+   4. 函数声明
+   ```
+    
+    function foc({ a, b = 0 }= { a: '123' }): void {
+
+    }
+    foo() //ok
+    foo({a:1})//ok
+    foo({}) // 必须有a参数
+
+    //复杂情况，既有默认值又有类型限制
+    function foc({ a, b = 0 }: { a: number, b: number } = { a: 0}): void {
+
+    }
+   ```
+   5. 展开
+   展开对象时只包含其可枚举属性，会丢失其自身的方法
+   ```
+   //数组，展开操作符为数组创建了一份浅拷贝
+   let a = [1,2,3]
+   let b = [2,3,4]
+   let c = [...a,...b]
+
+   //对象，展开对象，后出现的同名属性会覆盖前面的属性
+   let o1 = {name:'lhc',age:20,print(){console.log(1)}}
+   let o2 = {name:'abc',male:'male'}
+   let o3 = {...o1,...o2}
+   o3//{name:'abc',age:20,male:'male'}
+   o3.print()//error!
+   ```

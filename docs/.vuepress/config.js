@@ -33,6 +33,9 @@ let meting = [
 
 module.exports = {
   title: 'hi Jael',
+  head:[
+    ['link',{rel:'shortcut icon',href:'/icon/favicon.ico'}]
+  ],
   description: 'nico，momo可真是个臭猪。',
   theme: 'reco',
   configureWebpack: {
@@ -100,10 +103,10 @@ module.exports = {
     logo: '/img/avatar1.jpg',
     authorAvatar: '/img/avatar1.jpg',
     
-    record: 'ICP 备案文案',
-    recordLink: 'ICP 备案指向链接',
-    cyberSecurityRecord: '公安部备案文案',
-    cyberSecurityLink: '公安部备案指向链接',
+    record: '苏ICP备2021048955号-1',
+    recordLink: 'https://beian.miit.gov.cn/',
+    // cyberSecurityRecord: '公安部备案文案',
+    // cyberSecurityLink: '公安部备案指向链接',
     
     // 项目开始时间，只填写年份
     startYear: '2021',
@@ -137,6 +140,7 @@ module.exports = {
     nav: [
       { text: '主页', link: '/' },
       { text: '百度', link: 'https://www.baidu.com' },
+      { text: 'love', link: 'http://love.jaelizumi.cn' },
       { text: 'github', link: 'https://github.com/hachi1994' ,icon:'reco-github'},
       // { text: '百度', link: 'https://www.baidu.com' },
       // { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
