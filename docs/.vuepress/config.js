@@ -32,9 +32,10 @@ let meting = [
 ]
 
 module.exports = {
-  title: 'hi Jael',
+  title: '尼莫毛毛星球',
   head:[
-    ['link',{rel:'shortcut icon',href:'/icon/favicon.ico'}]
+    ['link',{rel:'shortcut icon',href:'/icon/favicon.ico'}],
+    ['meta',{name:'baidu-site-verification',content:'code-u9R685wCgI'}]
   ],
   description: 'nico，momo可真是个臭猪。',
   theme: 'reco',

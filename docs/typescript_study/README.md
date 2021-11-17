@@ -169,3 +169,77 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
    o3//{name:'abc',age:20,male:'male'}
    o3.print()//error!
    ```
+
+### 3.接口
+    接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约
+   
+   1. 编译器只会检测接口中定义的必须传递的参数
+   ```
+        interface Person {
+            name:string,
+            age:number
+        }
+        let p: Person = {
+            age:20,
+            car:'benz'
+        }
+        //error, 类型 "{ age: number; name: string }" 中缺少属性 "name"，但类型 "Person" 中需要该属性
+   ```
+   2. 可选属性
+   属性名加问号可以定义一个可选属性
+   ```
+    interface Person {
+        car?: string,
+        name: string,
+        age: number
+    }
+    let p: Person = {
+        name: 'lhc',
+        age: 20
+    }
+   ```
+   3. 只读属性
+   只读属性只能在对象刚创建时修改其值，使用readonly指定只读属性。
+   ```
+    interface Person {
+        readonly father: string
+    }
+    let p: Person  = {
+        father:'father'
+    }
+    p.father = 'abc' // error
+   ```
+   TypeScript具有<span style='color:red;font-weight:900'>ReadonlyArray</span>类型，可以用来定义一个创建之后再也不能修改的数组。
+
+   ```
+    let a: number[] = [1,2,3]
+    let b: ReadonlyArray<number> = a
+    a[1] = 1//ok
+    //b[1] = 1//error 类型“readonly number[]”中的索引签名仅允许读取
+    //b.push(1)//error 类型“readonly number[]”上不存在属性“push”。 其所有可变方法都被去掉了
+    //b.length = 1//error 无法分配到 "length" ，因为它是只读属性。
+    //a  = b //error 类型 "readonly number[]" 为 "readonly"，不能分配给可变类型 "number[]"。
+   ```
+
+   想把一个ReadonlyArray赋值到一个普通数组的方法是使用类型断言重写
+   
+   ```
+        a = (b as number[])//ok
+   ```
+   4. 额外的属性检查
+   通过索引签名‘propName’，可以传入任意的额外属性，只要不是name，其他的都可以
+   ```
+    interface Person {
+        name:string;
+        [propName:string]:any;
+    }
+    function foo(p:Person):void{
+
+    }
+    //foo({naem:'123'})//error 类型“{ naem: string; }”的参数不能赋给类型“Person”的参数。类型“{ naem: string; }”缺少类型“Person”中的以下属性: name, age
+    foo({age:20,name:'123'})//error 类型“{ age: number; }”的参数不能赋给类型“Person”的参数。类型 "{ age: number; }" 中缺少属性 "name"，但类型 "Person" 中需要该属性。
+    foo({age:20} as Person) // ok
+   ```
+   5. 函数类型
+   为了使用接口表示函数类型，我们需要给接口定义一个调用签名。 它就像是一个只有参数列表和返回值类型的函数定义。参数列表里的每个参数都需要名字和类型。
+   
