@@ -242,4 +242,148 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
    ```
    5. 函数类型
    为了使用接口表示函数类型，我们需要给接口定义一个调用签名。 它就像是一个只有参数列表和返回值类型的函数定义。参数列表里的每个参数都需要名字和类型。
-   
+
+   6. 可索引类型
+   可索引类型是a[0],p['name']这种，可索引类型包含一个索引签名，描述了对象索引的类型，还有相应索引的返回值类型
+   ```
+   interface numberArr {
+        [a:number]:number;
+    }
+    let arr: numberArr = [1,2,3]
+    console.log(arr[0]);//1
+   ```
+   TypeScript支持两种类型的索引签名：字符串和数值,可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。 这是因为当使用 number来索引时，JavaScript会将它转换成string然后再去索引对象。 
+   ```
+        class Animal {
+            name:string
+        }
+        class Dog extends Animal {
+            color:string
+        }
+        interface example {
+            [x:number]:Animal;//Error!“number”索引类型“Animal”不能分配给“string”索引类型“Dog”。
+            [x:number]:Dog;//OK
+            [x:string]:Dog
+        }
+        let d: Dog  = {
+            color:'1',
+            name:'1'
+        }
+        let e: example = {
+            a:d
+        }
+        console.log(e['a'],e.a)// { color: '1', name: '1' }
+
+   ```
+   可以设置索引签名为只读，可以避免给索引赋值
+
+ ```
+ interface example {
+     [x:number]:Dog;
+     readonly [x:string]:Dog
+ }
+ let d: Dog  = {
+     color:'1',
+     name:'1'
+ }
+ let e: example = {
+     a:d
+ }
+ e.b = d//error! 类型“example”中的索引签名仅允许读取。
+ ```
+ 7. 类和接口
+   1.类实现接口
+   ```
+    interface nameInfo {
+        firstName: string;
+        lastName: string,
+        setName(firstName: string, lastName: string): any
+    }
+    class Person implements nameInfo {
+        firstName: string;
+        lastName: string;
+        setName(f: string, l: string): any {
+            this.firstName = f
+            this.lastName = l
+        }
+        constructor(f:string,l:string){
+            this.firstName = f
+            this.lastName = l
+        }
+    }
+    let p:Person = new Person('l','hc')
+    console.log(p);//Person { firstName: 'l', lastName: 'hc' }
+    p.setName('wade','dwyane')
+    console.log(p); // Person { firstName: 'wade', lastName: 'dwyane' }
+   ```
+   2. 接口继承接口
+   ```
+    interface Cat {
+        color: string
+    }
+    interface HomeCat {
+        home: string
+    }
+    interface ShorFurCat extends Cat , HomeCat {
+        name: string
+    }
+    let c = <ShorFurCat>{}
+    c.name = 'nico'
+    c.color = 'gray'
+    c.home = 'cat-house'
+    console.log(c);//{ name: 'nico', color: 'gray' , home: 'cat-house'}
+   ```
+   3. 混合类型
+   一个对象可以同时具有上面提到的多种类型。比如一个对象可以同时作为函数和对象使用,下面代码，使得p既是一个函数也是一个对象。
+   ```
+    interface Person {
+        (msg: string): void;
+        myName: string;
+        age: number;
+    }
+    function getPerson(): Person {
+        let p = <Person>function (msg: string) {
+            console.log(msg)
+        }
+        p.myName = 'lhc'
+        p.age = 20
+        return p
+    }
+    let p = getPerson()
+    p('i am a function')//i am a function 
+    console.log(p,p.myName,p.age);//[Function: p] { myName: 'lhc', age: 20 } lhc 20
+   ```
+   4. 接口继承类
+   接口继承类之后，接口同样会继承private和protected的成员，但是这个<span style='color:red;font-weight:900'>接口只能被这被继承的类或这个被继承的类的子类实现。</span>。
+   ```
+    class A {
+        private spell:string
+    }
+
+    interface Word extends A {
+        show():void
+    }
+
+    //Ok！ 且Bb的实例都具继承有私有属性spell，因为它们都继承自基类A
+    class Bb extends A implements Word {
+        show(){
+
+        }
+    }
+
+    //Ok! 且Cc的实例都具继承有私有属性spell，因为它们都继承自基类A
+    class Cc extends A {
+        
+    }
+
+    //Error! 虽然Dd实现了Word，并且Word继承了类A，但是因为Dd不是直接继承了基类A，所以会报错:类“Dd”错误实现接口“Word”。
+    属性“spell”在类型“Word”中是私有属性，但在类型“Dd”中不是。如果不声明spell属性就会报错：类型 "Dd" 中缺少属性 "spell"，但类型 "Word" 中需要该属性。
+    class Dd implements Word {
+        show(){
+
+        }
+        spell:string
+    }
+   ```
+   上面代码，Dd并不是Aa类的子类，所以即使它实现了继承了A类的接口Word，也不能访问私有属性spell，只有Aa的子类Bb，Cc可以访问到私有属性spell。
+   所以包含了私有和被保护属性或方法的类如果被某个接口继承了，那么只有这个类的子类，才能去实现继承了这个接口。
