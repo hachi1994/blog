@@ -387,3 +387,29 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
    ```
    上面代码，Dd并不是Aa类的子类，所以即使它实现了继承了A类的接口Word，也不能访问私有属性spell，只有Aa的子类Bb，Cc可以访问到私有属性spell。
    所以包含了私有和被保护属性或方法的类如果被某个接口继承了，那么只有这个类的子类，才能去实现继承了这个接口。
+
+
+
+### 4.类
+
+
+
+tips:
+1. 不同文件的变量如果发生冲突，使用namespace将ts文件的代码包裹起来,可以避免冲突.
+   ```
+    //index.ts
+    namespace classDemo1 {
+        class People {
+            name:string
+            say(){
+                console.log(this.name);
+            }
+            constructor(name:string){
+                this.name = name
+            }
+        }
+        let p = new People('lhc')
+        p.say()
+    }   
+
+   ```
