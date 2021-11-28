@@ -160,6 +160,7 @@ categories:
     let man_1 = content(Person.prototype)
     Sub.prototype = man_1
     man_1.constructor = Sub
+    
     Person.prototype.haha = 1
     let man_2 = new Sub('lhc')
     man_2.name //lhc
