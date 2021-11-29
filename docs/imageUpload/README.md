@@ -88,12 +88,13 @@ categories:
 
     });
     app.post('/api/uploadImg', (req, res) => {
-        let name = req.files.file.name
+        const  name = req.files.file.name
+        const file = req.files.file.path //获取流的临时存储路径
         obsClient.putObject({
             Bucket: bucketName,
             Key: name,
             // 创建文件流，其中localfile为待上传的本地文件路径，需要指定到具体的文件名
-            Body:  req.files.file,
+            Body:  file,
             ACL: obsClient.enums.AclPublicRead
         }, (err, result) => {
             if (err) {
@@ -108,7 +109,8 @@ categories:
                     Key: name
                 })
                 const SignedUrl = resUrl.SignedUrl
-                insert(name, SignedUrl).then(r => {
+                const URI = `https://zardluansource.obs.cn-east-2.myhuaweicloud.com/${encodeURI(name)}`
+                insert(name, URI).then(r => {
                     run(name).then(r => {
                         res.send({
                             "code": 0,
