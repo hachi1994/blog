@@ -29,14 +29,14 @@ categories:
     //数组泛型
     let colors: Array<string> = ['red','green']
    ```
-   5. 元组 元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同
+   5. 元组 元组类型允许表示一个已知元素数量和类型的数组,各元素的类型不必相同
    ```
     let a: [string, number]
     a = ['abc', 20]
     console.log(a[0])//'abc'
-    //访问越界的元素，会使用联合类型来替代
-    a[10] = true //错误，因为true是boolean，并不是(string|number)类型
-    a[9] = 10 //正确，因为10是number属于(string|number)类型
+    //访问越界的元素,会使用联合类型来替代
+    a[10] = true //错误,因为true是boolean,并不是(string|number)类型
+    a[9] = 10 //正确,因为10是number属于(string|number)类型
    ``` 
    6. 枚举 为一组数值赋予友好的名称
    ```
@@ -70,14 +70,14 @@ categories:
 
    ```
    9. undefined和null
-undefined和null是所有类型的子类型，所以可以把null和undefined赋值给任意类型，但是不建议这么做，建议使用时配合联合类型使用(string|null|undefined)。
+undefined和null是所有类型的子类型,所以可以把null和undefined赋值给任意类型,但是不建议这么做,建议使用时配合联合类型使用(string|null|undefined).
    ```
    let n: null = null
    let u :undefined = undefined
 
    ```
    10. never 
-    表示永远无法达到的类型，例如函数抛出错误，never是任何类型的子类型可以赋值给任意类型，但是任何类型不可赋值给never类型。
+    表示永远无法达到的类型,例如函数抛出错误,never是任何类型的子类型可以赋值给任意类型,但是任何类型不可赋值给never类型.
     ```
      function foo(message: string): never {
          throw new Error(message)
@@ -92,13 +92,13 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
      }
     ```
     11. object
-     表示除number，string，boolean，symbol，null或undefined之外的类型，使用object类型，就可以更好的表示像Object.create这样的API
+     表示除number,string,boolean,symbol,null或undefined之外的类型,使用object类型,就可以更好的表示像Object.create这样的API
      ```
      declare function create(o: object | null): void
      create({ name: 'lhc' })
      ```
      12. 类型断言
-     当开发者更加清楚某个实现具有的类型时，可以进行类型的转换。两种使用方法一种是尖括号包含类型，一种是as，在TypeScript中使用JSX只支持as形式
+     当开发者更加清楚某个实现具有的类型时,可以进行类型的转换.两种使用方法一种是尖括号包含类型,一种是as,在TypeScript中使用JSX只支持as形式
      ```
         let str: any = 'i am lhc'
         let strLength: number = (str as string).length // 8 
@@ -107,7 +107,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
 ### 2. 变量声明
 
 1. let 和 const 应用场景
-   所有变量除了你计划去修改的都应该使用const。 基本原则就是如果一个变量不需要对它写入，那么其它使用这些代码的人也不能够写入它们，并且要思考为什么会需要对这些变量重新赋值。 使用 const也可以让我们更容易的推测数据的流动。
+   所有变量除了你计划去修改的都应该使用const. 基本原则就是如果一个变量不需要对它写入,那么其它使用这些代码的人也不能够写入它们,并且要思考为什么会需要对这些变量重新赋值. 使用 const也可以让我们更容易的推测数据的流动.
 2. 解构
    1. 数组解构
    ```
@@ -149,20 +149,20 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
     foo({a:1})//ok
     foo({}) // 必须有a参数
 
-    //复杂情况，既有默认值又有类型限制
+    //复杂情况,既有默认值又有类型限制
     function foc({ a, b = 0 }: { a: number, b: number } = { a: 0}): void {
 
     }
    ```
    5. 展开
-   展开对象时只包含其可枚举属性，会丢失其自身的方法
+   展开对象时只包含其可枚举属性,会丢失其自身的方法
    ```
-   //数组，展开操作符为数组创建了一份浅拷贝
+   //数组,展开操作符为数组创建了一份浅拷贝
    let a = [1,2,3]
    let b = [2,3,4]
    let c = [...a,...b]
 
-   //对象，展开对象，后出现的同名属性会覆盖前面的属性
+   //对象,展开对象,后出现的同名属性会覆盖前面的属性
    let o1 = {name:'lhc',age:20,print(){console.log(1)}}
    let o2 = {name:'abc',male:'male'}
    let o3 = {...o1,...o2}
@@ -183,7 +183,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
             age:20,
             car:'benz'
         }
-        //error, 类型 "{ age: number; name: string }" 中缺少属性 "name"，但类型 "Person" 中需要该属性
+        //error, 类型 "{ age: number; name: string }" 中缺少属性 "name",但类型 "Person" 中需要该属性
    ```
    2. 可选属性
    属性名加问号可以定义一个可选属性
@@ -199,7 +199,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
     }
    ```
    3. 只读属性
-   只读属性只能在对象刚创建时修改其值，使用readonly指定只读属性。
+   只读属性只能在对象刚创建时修改其值,使用readonly指定只读属性.
    ```
     interface Person {
         readonly father: string
@@ -209,16 +209,16 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
     }
     p.father = 'abc' // error
    ```
-   TypeScript具有<span style='color:red;font-weight:900'>ReadonlyArray</span>类型，可以用来定义一个创建之后再也不能修改的数组。
+   TypeScript具有<span style='color:red;font-weight:900'>ReadonlyArray</span>类型,可以用来定义一个创建之后再也不能修改的数组.
 
    ```
     let a: number[] = [1,2,3]
     let b: ReadonlyArray<number> = a
     a[1] = 1//ok
     //b[1] = 1//error 类型“readonly number[]”中的索引签名仅允许读取
-    //b.push(1)//error 类型“readonly number[]”上不存在属性“push”。 其所有可变方法都被去掉了
-    //b.length = 1//error 无法分配到 "length" ，因为它是只读属性。
-    //a  = b //error 类型 "readonly number[]" 为 "readonly"，不能分配给可变类型 "number[]"。
+    //b.push(1)//error 类型“readonly number[]”上不存在属性“push”. 其所有可变方法都被去掉了
+    //b.length = 1//error 无法分配到 "length" ,因为它是只读属性.
+    //a  = b //error 类型 "readonly number[]" 为 "readonly",不能分配给可变类型 "number[]".
    ```
 
    想把一个ReadonlyArray赋值到一个普通数组的方法是使用类型断言重写
@@ -227,7 +227,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
         a = (b as number[])//ok
    ```
    4. 额外的属性检查
-   通过索引签名‘propName’，可以传入任意的额外属性，只要不是name，其他的都可以
+   通过索引签名‘propName’,可以传入任意的额外属性,只要不是name,其他的都可以
    ```
     interface Person {
         name:string;
@@ -236,15 +236,15 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
     function foo(p:Person):void{
 
     }
-    //foo({naem:'123'})//error 类型“{ naem: string; }”的参数不能赋给类型“Person”的参数。类型“{ naem: string; }”缺少类型“Person”中的以下属性: name, age
-    foo({age:20,name:'123'})//error 类型“{ age: number; }”的参数不能赋给类型“Person”的参数。类型 "{ age: number; }" 中缺少属性 "name"，但类型 "Person" 中需要该属性。
+    //foo({naem:'123'})//error 类型“{ naem: string; }”的参数不能赋给类型“Person”的参数.类型“{ naem: string; }”缺少类型“Person”中的以下属性: name, age
+    foo({age:20,name:'123'})//error 类型“{ age: number; }”的参数不能赋给类型“Person”的参数.类型 "{ age: number; }" 中缺少属性 "name",但类型 "Person" 中需要该属性.
     foo({age:20} as Person) // ok
    ```
    5. 函数类型
-   为了使用接口表示函数类型，我们需要给接口定义一个调用签名。 它就像是一个只有参数列表和返回值类型的函数定义。参数列表里的每个参数都需要名字和类型。
+   为了使用接口表示函数类型,我们需要给接口定义一个调用签名. 它就像是一个只有参数列表和返回值类型的函数定义.参数列表里的每个参数都需要名字和类型.
 
    6. 可索引类型
-   可索引类型是a[0],p['name']这种，可索引类型包含一个索引签名，描述了对象索引的类型，还有相应索引的返回值类型
+   可索引类型是a[0],p['name']这种,可索引类型包含一个索引签名,描述了对象索引的类型,还有相应索引的返回值类型
    ```
    interface numberArr {
         [a:number]:number;
@@ -252,7 +252,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
     let arr: numberArr = [1,2,3]
     console.log(arr[0]);//1
    ```
-   TypeScript支持两种类型的索引签名：字符串和数值,可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。 这是因为当使用 number来索引时，JavaScript会将它转换成string然后再去索引对象。 
+   TypeScript支持两种类型的索引签名：字符串和数值,可以同时使用两种类型的索引,但是数字索引的返回值必须是字符串索引返回值类型的子类型. 这是因为当使用 number来索引时,JavaScript会将它转换成string然后再去索引对象. 
    ```
         class Animal {
             name:string
@@ -261,7 +261,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
             color:string
         }
         interface example {
-            [x:number]:Animal;//Error!“number”索引类型“Animal”不能分配给“string”索引类型“Dog”。
+            [x:number]:Animal;//Error!“number”索引类型“Animal”不能分配给“string”索引类型“Dog”.
             [x:number]:Dog;//OK
             [x:string]:Dog
         }
@@ -275,7 +275,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
         console.log(e['a'],e.a)// { color: '1', name: '1' }
 
    ```
-   可以设置索引签名为只读，可以避免给索引赋值
+   可以设置索引签名为只读,可以避免给索引赋值
 
  ```
  interface example {
@@ -289,7 +289,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
  let e: example = {
      a:d
  }
- e.b = d//error! 类型“example”中的索引签名仅允许读取。
+ e.b = d//error! 类型“example”中的索引签名仅允许读取.
  ```
  7. 类和接口
    1.类实现接口
@@ -334,7 +334,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
     console.log(c);//{ name: 'nico', color: 'gray' , home: 'cat-house'}
    ```
    3. 混合类型
-   一个对象可以同时具有上面提到的多种类型。比如一个对象可以同时作为函数和对象使用,下面代码，使得p既是一个函数也是一个对象。
+   一个对象可以同时具有上面提到的多种类型.比如一个对象可以同时作为函数和对象使用,下面代码,使得p既是一个函数也是一个对象.
    ```
     interface Person {
         (msg: string): void;
@@ -354,7 +354,7 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
     console.log(p,p.myName,p.age);//[Function: p] { myName: 'lhc', age: 20 } lhc 20
    ```
    4. 接口继承类
-   接口继承类之后，接口同样会继承private和protected的成员，但是这个<span style='color:red;font-weight:900'>接口只能被这被继承的类或这个被继承的类的子类实现。</span>。
+   接口继承类之后,接口同样会继承private和protected的成员,但是这个<span style='color:red;font-weight:900'>接口只能被这被继承的类或这个被继承的类的子类实现.</span>.
    ```
     class A {
         private spell:string
@@ -364,20 +364,20 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
         show():void
     }
 
-    //Ok！ 且Bb的实例都具继承有私有属性spell，因为它们都继承自基类A
+    //Ok！ 且Bb的实例都具继承有私有属性spell,因为它们都继承自基类A
     class Bb extends A implements Word {
         show(){
 
         }
     }
 
-    //Ok! 且Cc的实例都具继承有私有属性spell，因为它们都继承自基类A
+    //Ok! 且Cc的实例都具继承有私有属性spell,因为它们都继承自基类A
     class Cc extends A {
         
     }
 
-    //Error! 虽然Dd实现了Word，并且Word继承了类A，但是因为Dd不是直接继承了基类A，所以会报错:类“Dd”错误实现接口“Word”。
-    属性“spell”在类型“Word”中是私有属性，但在类型“Dd”中不是。如果不声明spell属性就会报错：类型 "Dd" 中缺少属性 "spell"，但类型 "Word" 中需要该属性。
+    //Error! 虽然Dd实现了Word,并且Word继承了类A,但是因为Dd不是直接继承了基类A,所以会报错:类“Dd”错误实现接口“Word”.
+    属性“spell”在类型“Word”中是私有属性,但在类型“Dd”中不是.如果不声明spell属性就会报错：类型 "Dd" 中缺少属性 "spell",但类型 "Word" 中需要该属性.
     class Dd implements Word {
         show(){
 
@@ -385,17 +385,97 @@ undefined和null是所有类型的子类型，所以可以把null和undefined赋
         spell:string
     }
    ```
-   上面代码，Dd并不是Aa类的子类，所以即使它实现了继承了A类的接口Word，也不能访问私有属性spell，只有Aa的子类Bb，Cc可以访问到私有属性spell。
-   所以包含了私有和被保护属性或方法的类如果被某个接口继承了，那么只有这个类的子类，才能去实现继承了这个接口。
+   上面代码,Dd并不是Aa类的子类,所以即使它实现了继承了A类的接口Word,也不能访问私有属性spell,只有Aa的子类Bb,Cc可以访问到私有属性spell.
+   所以包含了私有和被保护属性或方法的类如果被某个接口继承了,那么只有这个类的子类,才能去实现继承了这个接口.
 
 
 
 ### 4.类
 
+1. 修饰符(public,private,protected,readonly)
+   1. 类的成员默认均是public的.
+   2. private声明的成员不能在类的外部被访问,包括子类(派生类).
+   3. protected声明的成员可以被子类访问到.
+      1. 如果构造函数被声明为protected,那么这个类则不能在包含这个构造函数的类外面进行实例化,但是是可以被继承的.
+   4. readonly关键字将属性设置为只读的, 只读属性必须在声明时或构造函数里被初始化.
+   ```
+        class People {
+            public name: string
+            protected age: number
+            private cardPass: number
+            readonly male: string
+            say() {
+                console.log(this.name);
+            }
+            getMyCarPassword() {
+                console.log(this.cardPass);
+
+            }
+            protected constructor(name: string, age: number, cardPass: number, male: string) {
+                this.name = name
+                this.age = age
+                this.cardPass = cardPass
+                this.male = male
+            }
+        }
+        class Women extends People {
+            constructor(name: string, age: number, cardPass: number, male: string) {
+                super(name, age, cardPass, male)
+            }
+            getMyCarPassword() {
+                super.getMyCarPassword()
+                //console.log(this.cardPass);//Error 属性“cardPass”为私有属性，只能在类“People”中访问
+
+            }
+            say() {
+                console.log(this.age);
+                super.say()
+            }
+        }
+        //let p = new People('wade',20,123456) //Error 类“People”的构造函数是受保护的，仅可在类声明中访问。
+        let aWomen = new Women('lhc', 20, 123456,'female')
+        //aWomen.male = 'male' //Error 无法分配到 "male" ，因为它是只读属性
+        aWomen.say()
+   ```
+2. 参数属性
+   参数属性可以使我们在一个地方定义的同时并初始化一个成员，当使用修饰符在构造函数中声明时，可以认为声明并初始化了一个该成员。
+   上面的People类可以写成下面这种形式，缩减了代码量
+   ```
+    class People {
+            say() {
+                console.log(this.name);
+            }
+            getMyCarPassword() {
+                console.log(this.cardPass);
+
+            }
+            //该构造函数等同于用前面的修饰符声明并初始化了name,age,cardPass,male,四个变量
+            constructor(public name:string,protected age:number,private cardPass:number, readonly male:string){}
+    }
+   ```
+3. 存取器getters,setters
+   1. 通过存取器来截取对对象成员的访问，可以有效的控制对对象成员的访问。
+   2. 使用存取器需要将ts编译器设置为es5或更高.
+      1. 编译指令 tsc xxxx.ts -t es5
+   3. 若只设置了get而没设置set,则该属性则会被默认设置为readonly.
+   ```
+    class People {
+        private _name: string
+        get name(): string {
+            return this._name
+        }
+        set name(name: string) {
+            console.log('正在设置name')
+            this._name = name
+        }
+    }
+    let p = new People()
+    p.name = '2314'
+   ```
 
 
 tips:
-1. 不同文件的变量如果发生冲突，使用namespace将ts文件的代码包裹起来,可以避免冲突.
+1. 不同文件的变量如果发生冲突,使用namespace将ts文件的代码包裹起来,可以避免冲突.
    ```
     //index.ts
     namespace classDemo1 {
