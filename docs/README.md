@@ -11,6 +11,7 @@ bgImageStyle: {
   height: '550px'
 }
 ---
+<FloatStr/>
 <a-player 
     :options="{
         fixed:true,
