@@ -524,6 +524,28 @@ undefined和null是所有类型的子类型,所以可以把null和undefined赋�
     }
     let m:Man = {male:'man',name:'lhc',age:20}
    ```
+
+### 5. 函数
+1. 函数声明完整形式
+   ```
+    function foc(x:number,y:number):number {
+        return x+y;
+    }
+   ```
+2. 匿名函数完整形式
+   ```
+     let foo: (x: number, y: number) => number = function (a: number, b: number): number {
+         return a + b;
+     }
+   ```
+3. 推断类型
+   如果在函数表达式一边指定了返回类型，另一半没有指定，则TypeScript编译器会自动识别类型
+   ```
+    let foo: (x: number, y: number) => number = function (a, b) {
+         return a + b;
+     }
+4. 可选和默认参数
+   ```
 tips:
 1. 不同文件的变量如果发生冲突,使用namespace将ts文件的代码包裹起来,可以避免冲突.
    ```
