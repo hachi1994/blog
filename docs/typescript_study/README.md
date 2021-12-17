@@ -545,6 +545,29 @@ undefined和null是所有类型的子类型,所以可以把null和undefined赋�
          return a + b;
      }
 4. 可选和默认参数
+   在参数的函数名旁加一个?可以实现可选参数,可选参数必须跟在必须参数后面。
+   如果有默认值的参数出现在必须参数的前面，必须传入undefined来获取默认值。
+   ```  
+    function add(c:number = 1,a?:number, b?: number) {
+            return a + b?b:0 + c?c:0
+    }
+    add()
+    function add1(c=1,a?:number, b?: number) {
+        return a + b?b:0 + c?c:0
+    }
+    console.log(add1(undefined))//1
+    console.log(add1()) // 1
+   ```
+5. 剩余参数
+   在TypeScript中可以使用省略号将剩余变量收集到一个变量中
+   ```
+    function foa(a:number,b:number,...c: number[]){
+            console.log(a,b,c)
+    }
+    foa(1,2,4,5,6,7) // 1,2,[4,5,6,7]
+    foa(1,2) // 1,2,[]
+    let ff:(a:number,b:number,...r:number[]) => void  = foa
+    ff(1,2,3,4,5)
    ```
 tips:
 1. 不同文件的变量如果发生冲突,使用namespace将ts文件的代码包裹起来,可以避免冲突.
