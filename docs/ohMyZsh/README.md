@@ -44,3 +44,12 @@ categories:
     )
     source ~/.zshrc
    ```
+5. 使用zsh后发现各种命令出现command not find情况
+   因为各种命令去依旧使用的是.bashrc中的配置，所以解决这个问题的方法是，复制.bashrc里的配置到.zshrc中，再source即可。
+   ```
+      vim ~/.bashrc 
+      复制其中的内容
+      vim ~/.zshrc
+      将.bashrc中内容复制进来
+      source ~/.zshrc
+   ```
