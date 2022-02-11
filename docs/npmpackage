@@ -1,0 +1,18 @@
+---
+title: npm上传/更新包
+date: 2022-02-10
+tags:
+ - npm
+categories:
+ - npm
+---
+
+### 上传包
+1. 新建文件夹并 npm init,填写包的信息,并进行开发.
+2. 开发完成使用 npm adduser 添加npm用户,输入用户名,密码,邮箱.
+3. 使用npm publish 上传.
+
+### 更新包
+1. 进入包的目录,进行代码更新.
+2. 使用npm 包名 versions 查看版本.
+3. 使用 npm version patch 1.0.0=>1.0.1 /minor 1.0.0=>1.1.0/major 1.0.0=>2.0.0
