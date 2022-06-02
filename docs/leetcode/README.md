@@ -7,7 +7,7 @@ tags:
 categories:
  - 基础
 ---
-## 1️⃣ var a = 10 ; a ^= (1<<4) - 1;
+## var a = 10 ; a ^= (1<<4) - 1;
 
 1. js进行进制之间的转换。
 ```
@@ -99,7 +99,7 @@ categories:
 
 3. 解答： 1 << 4 => 1* Math.pow(2,4) = 16 => 16-1 = 5; 10 ^ 15 => 1111 ^ 1010 = 0101 = 5
 
-## 2️⃣ 找出所有子集的异或总和再求和
+## 找出所有子集的异或总和再求和
 
 一个数组的 异或总和 定义为数组中所有元素按位 XOR 的结果；如果数组为 空 ，则异或总和为 0 。
 
@@ -133,3 +133,96 @@ categories:
         
     };
    ```
+
+
+
+##  [1. 两数之和](https://leetcode.cn/problems/two-sum/)
+
+给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
+
+你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。
+
+你可以按任意顺序返回答案。
+
+**示例**
+
+输入：nums = [2,7,11,15], target = 9
+输出：[0,1]
+解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+
+### 解法一:暴力循环
+
+```
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    for(let i = 0;i< nums.length;i++){
+        for(let j = i+1;j<nums.length;j++){
+            if(nums[i]+nums[j]===target){
+                return [i,j];
+            }
+        }
+    }
+    return resultArr;
+};
+```
+
+### 解法二:暴力循环使用js的Map模拟hashMap,用空间换时间.
+
+```
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) { 
+    let m = new Map()
+    for(let i = 0;i<nums.length;i++){
+        if(m.has(target - nums[i])){
+            return [m.get(target-nums[i]),i]
+        }else {
+            m.set(nums[i],i)
+        }
+    }
+    return [];
+};
+```
+
+
+
+
+
+
+## [1. 回文数](https://leetcode.cn/problems/palindrome-number/)
+
+给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。
+
+回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
+
+例如，121 是回文，而 123 不是。
+
+### 解法一:数组反转一起遍历
+
+```
+var isPalindrome = function(x) {
+   let a1 = x.toString().split("");
+   let a2 = x.toString().split("").reverse()
+   let flag = true
+   for(let i = 0;i<a1.length;i++){
+       if(a1[i] !== a2[i]){flag = false;}
+   }
+   return flag
+}
+```
+
+### 解法二:转字符串转数组取反在对比
+
+```
+var isPalindrome = function(x) {
+   return x.toString() === x.toString().split('').reverse().join('')
+}
+```
+
