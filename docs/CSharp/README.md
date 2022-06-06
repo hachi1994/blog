@@ -331,3 +331,244 @@ switch(a)
  	Console.Write(2);
 ```
 
+
+
+### 循环
+
+1. for循环最常用,通常用于知道循环次数的情况.
+2. while.通常用于不知道循环次数的情况
+3. do while 不常用,通常用于先执行一次的情况.
+4. break跳出本层循环,continue结束本次循环,通常与if连用.
+
+### 数组
+
+定义数组后必须对数组初始化才能使用
+
+- 动态初始化 数据类型 [] 变量名 = new 数据类型[数组长度]{元素1,元素2}
+
+  int 数组默认值为0,bool数组默认值faslse,float数组默认值为0,char数组默认值为'',sring数组默认值为null
+
+  这种情况可以将定义和初始化分开.
+
+```
+int[] age;
+age = new int[3]//此时数组元素为默认值
+int[] age = new int[3] { 1, 2, 3 };
+
+
+```
+
+- 静态初始化
+
+  这种情况不能将定义和初始化分开
+
+  ```
+  int[] age = {1,2,3}
+  
+  ```
+
+
+
+访问数组时如果下标对应的数组不存在,就会发生数组越界异常
+
+#### 遍历数组
+
+
+
+#### 二维数组
+
+有两个下标的数组,数组的元素还是数组.
+
+##### 动态初始化
+
+动态初始化时可以指定长度
+
+```
+int[,] arr;
+int[,] arr2;
+arr = new int[2,3] { { 1, 2, 3 }, { 1, 2, 3  } };
+arr2 = new int[,] { };
+```
+
+
+
+##### 静态初始化
+
+静态初始化不能指定长度
+
+```
+int[,] arr3 = { { 1, 2, 3 }, { 1, 2, 3 } };
+```
+
+##### 二维数组的长度
+
+直接访问二维数组的.Length属性,默认返回数组中所有元素的个数(总长度)
+
+```C#
+int[,] a =
+    {
+        {1,2,3 },
+        {4,5,6 }
+    };
+ Console.WriteLine(a.Length);//6
+```
+
+<p style='color:red;font-weight:700;'>获取真正二维数组的长度,GetLength(维度),并遍历二维数组</p>
+
+```
+int[,] a =
+{
+    {1,2,3 },
+    {4,5,6 }
+};
+for (int i = 0; i < a.GetLength(0); i++)
+{
+    for (int j = 0; j < a.GetLength(1); j++)
+    {
+        Console.WriteLine(a[i, j]);
+    }
+}
+```
+
+##### foreach
+
+foreach用于迭代遍历可迭代的数据,比如数组,字符串.
+
+<p style='color:red;font-weight:700;'>
+    迭代类型可以使用var表示模糊类型
+</p>
+
+
+foreach(迭代类型 迭代变量名 in 迭代集合){
+
+​	循环体
+
+}
+
+<p style='color:red;font-weight:700;'>
+    迭代变量是只读的,不能修改.
+    且foreach性能消耗的,建议使用for
+</p>
+
+
+```
+int[,] a =
+{
+    {1,2,3 },
+    {4,5,6 }
+};
+foreach (var item in a)
+{
+    Console.WriteLine(item);//1 2 3 4 5 6 
+}
+```
+
+### 枚举和结构体
+
+#### 枚举(值类型)
+
+
+
+枚举类型时自定义类型,要定义在main函数外面.
+
+```
+class Game {
+    enum WeaponType
+        {
+            Gun,
+            Knife
+        }
+        static void Main(string[] args)
+        {
+            WeaponType gun = WeaponType.Gun;
+            WeaponType knife = WeaponType.Knife;
+            Console.WriteLine(gun);//Gun
+        }
+}
+```
+
+每一个枚举类型对应一个整型编号,可以通过强制转换来互相转换
+
+```
+WeaponType gun = WeaponType.Gun;
+int gunIndex = (int)WeaponType.Gun;
+Console.WriteLine(gunIndex);//0
+gun = (WeaponType)0;
+Console.Write(gun);//Gun
+```
+
+<p style='color:red;font-weight:700;'>枚举类型可以在定义时指定一个整数,若不指定则会根据前一个枚举进行递增,也可以进行++ -- 操作</p>
+
+```
+enum WeaponType
+    {
+        Gun=100,
+        Knife
+    }
+static void Main(string[] args)
+    {
+    	WeaponType knife = WeaponType.Knife;
+    	Console.Write(--knife);//Gun
+    	Console.write((WeaponType)101);//Knife
+    
+    }
+```
+
+### 结构体struct(值类型)
+
+枚举类型时自定义类型,要定义在main函数外面.
+
+结构体是自定义类型
+
+struct 结构体名 {结构体内容}
+
+结构体内不能有初始值.
+
+```
+struct Student
+{
+    public string name;
+    public int age;
+}
+
+Student s;
+s.name = "lhc";
+s.age = 20;
+```
+
+#### 结构体构造函数
+
+构造函数是在构造结构体时调用的函数,
+
+构造函数在结构体内创建,自定义的构造函数必须对所有的字段进行初始化 
+
+```
+struct Student
+    {
+        public  string name;
+        public int age;
+        public Student(string name,int age)
+        {
+            this.name = name;
+            this.age = age; 
+        }
+    }
+    
+ Student s = new Student("lhc", 20);
+```
+
+
+
+#### 练习
+
+创建部门电话枚举,900代表市场部,800代表人力部,700代表行政部,701代表财务部
+
+```
+enum Phone { 
+        Market=900,
+        People=800,
+        Xz=700,
+        Fund
+        }
+```
+

@@ -196,7 +196,7 @@ var twoSum = function(nums, target) {
 
 
 
-## [1. 回文数](https://leetcode.cn/problems/palindrome-number/)
+## [2. 回文数](https://leetcode.cn/problems/palindrome-number/)
 
 给你一个整数 x ，如果 x 是一个回文整数，返回 true ；否则，返回 false 。
 
@@ -224,5 +224,42 @@ var isPalindrome = function(x) {
 var isPalindrome = function(x) {
    return x.toString() === x.toString().split('').reverse().join('')
 }
+```
+
+## [3. 罗马数字转整数](https://leetcode.cn/problems/roman-to-integer/)
+
+### 解法:利用map,有限匹配2个字符,否则匹配一个字符
+
+```
+var romanToInt = function(s) {
+    // let m = new Map() 
+    let result = 0;
+    const m = {
+        I : 1,
+        IV: 4,
+        V: 5,
+        IX: 9,
+        X: 10,
+        XL: 40,
+        L: 50,
+        XC: 90,
+        C: 100,
+        CD: 400,
+        D: 500,
+        CM: 900,
+        M: 1000
+    };
+ 
+    for(let i = 0;i<s.length;){
+        if(i<s.length-1&&m[s.substring(i,i+2)]){
+            result+= m[s.substring(i,i+2)]
+            i+=2
+        }else{
+            result+= m[s.substring(i,i+1)]
+            i++
+        }
+    }
+    return result;
+};
 ```
 
