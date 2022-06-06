@@ -103,7 +103,7 @@ module.exports = {
     type: 'blog',
     logo: '/img/avatar1.jpg',
     authorAvatar: '/img/avatar1.jpg',
-    
+    subSidebar: 'auto',//在所有页面中启用自动生成子侧边栏，原 sidebar 仍然兼容
     record: '苏ICP备2021048955号-1',
     recordLink: 'https://beian.miit.gov.cn/',
     // cyberSecurityRecord: '公安部备案文案',
