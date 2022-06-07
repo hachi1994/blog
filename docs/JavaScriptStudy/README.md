@@ -808,3 +808,169 @@ let newO = Object.create(originO,{
 console.log(newO.name)//wade
 ```
 
+#### 寄生式继承
+
+寄生式继承背后的思路类似于寄生构造函数和工厂模式：创建一个实现继承的函数，以某种方式增强对象，然后返回这个对象
+
+```
+function object(o){
+    function F(){}
+    F.prototype = o
+    return new F()
+}
+
+function createAnotherObject(obj){
+    let clone = object(obj)
+    clone.say = function(){
+        console.log('hi')
+    }
+    return clone
+}
+
+let person = {
+    name:'lhc',
+    age:20
+}
+let clone = createAnotherObject(person)
+clone.say()//hi
+```
+
+这个例子基于 person 对象返回了一个新对象。新返回的 anotherPerson 对象具有 person 的所有属性和方法，还有一个新方法叫 sayHi()。 寄生式继承同样适合主要关注对象，而不在乎类型和构造函数的场景。object()函数不是寄生式 继承所必需的，任何返回新对象的函数都可以在这里使用。
+
+<span style='color:red'>通过寄生式继承给对象添加函数会导致函数难以重用，与构造函数模式类似。</span>
+
+#### 寄生式组合继承
+
+组合继承其实也存在效率问题。最主要的效率问题就是父类构造函数始终会被调用两次：一次在是 创建子类原型时调用，另一次是在子类构造函数中调用。本质上，子类原型最终是要包含超类对象的所 有实例属性，子类构造函数只要在执行时重写自己的原型就行了。
+
+寄生式组合继承通过盗用构造函数继承属性，但使用混合式原型链继承方法。基本思路是不通过调 用父类构造函数给子类原型赋值，而是取得父类原型的一个副本
+
+```
+function object(o){
+    function F(){}
+    F.prototype = o
+    return new F()
+}
+
+function inheritPrototype(subType,superType){
+    let prototype = object(superType.prototype)//创建父对象原型的副本
+    prototype.constructor = subType//对该父对象原型的副本进行增强，避免重写原型后导致的constructor丢失
+    subType.prototype = prototype//赋值对象
+}
+
+function SuperType(name){
+    this.name = name
+    
+}
+SuperType.prototype.say = function(){
+    console.log(this.name)
+}
+
+function Subtype(age,name){
+    this.age = age
+    SuperType.call(this,name)
+}
+inheritPrototype(Subtype,SuperType)
+
+Subtype.prototype.sayAge = function(){
+    console.log(this.age)
+}
+let sub = new Subtype(20,'lhc')
+sub.say()//lhc
+sub.sayAge()//20
+console.log(sub.__proto__.constructor === Subtype)//true
+```
+
+### 类
+
+#### 创建类
+
+**函数声明可以提升，但类定义不能**
+
+**函数受函数作用域限制**，而类受块作用域限制
+
+1. 类声明
+
+2. 函数表达式
+
+   ```
+   console.log(SuperType)//ReferenceError: Cannot access 'SuperType' before initialization
+   class SuperType{
+   
+   }
+   let Subtype = class {
+   
+   }
+   
+   {
+   	class BlockClass {
+   	
+   	}
+   }
+   console.log(BlockClass)//ReferenceError: BlockClass is not defined
+   ```
+
+#### 类的构成
+
+**类表达式的名称是可选的。在把类表达式赋值给变量后，可以通过 name 属性取得类表达式的名称 字符串。但不能在类表达式作用域外部访问这个标识符**
+
+```
+let Subtype = class SubTypeClass {
+    sayName(){
+        console.log(Subtype.name,SubTypeClass.name)
+    }
+}
+let s = new Subtype()
+s.sayName()//SubTypeClass SubTypeClass
+console.log(SubTypeClass)//ReferenceError: SubTypeClass is not defined
+```
+
+#### 实例化
+
+类的实例化分为5个步骤
+
+1. 在内存中创建一个新对象。
+2. 这个新对象内部的[[Prototype]]指针被赋值为构造函数的 prototype 属性
+3. 构造函数内部的 this 被赋值为这个新对象（即 this 指向新对象）
+4. 执行构造函数内部的代码（给新对象添加属性）。
+5. 如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。
+
+**默认情况下，类构造函数会在执行之后返回 this 对象。构造函数返回的对象会被用作实例化的对 象，如果没有什么引用新创建的 this 对象，那么这个对象会被销毁。**
+
+```
+class Person {
+    constructor(override){
+        this.name = 'person'
+        if(override){
+            return {
+                name:'override'
+            }
+        }
+    }
+}
+let p1 = new Person()
+let p2 = new Person(true)
+console.log(p1 instanceof Person)//true
+console.log(p2 instanceof Person)//false
+```
+
+#### 类是特殊的函数
+
+类有prototype属性，这个原型的constructor指向这个类本身
+
+```
+class Person {
+    constructor(override){
+        this.name = 'person'
+        if(override){
+            return {
+                name:'override'
+            }
+        }
+    }
+}
+
+console.log(Person.prototype)//{}
+console.log(Person === Person.prototype.constructor)//true
+```
+
