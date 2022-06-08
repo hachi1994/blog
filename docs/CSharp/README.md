@@ -542,19 +542,51 @@ s.age = 20;
 
 构造函数在结构体内创建,自定义的构造函数必须对所有的字段进行初始化 
 
-```
+<span style='color:red'>构造函数中如果传入构造函数的参数与构造体的参数名字不一样可以省略this,否则必须有this</span>
+
+```c#
 struct Student
     {
-        public  string name;
+        public string name;
         public int age;
-        public Student(string name,int age)
+        public string male;
+        public Student(string name,int age,string peopleMale)
         {
             this.name = name;
             this.age = age; 
+            male = peopleMale
         }
     }
     
  Student s = new Student("lhc", 20);
+```
+
+#### 创建一个英雄装备结构体.
+
+
+
+```c#
+enum EquipmentType
+{
+    AdEquipment,
+    ApEquipment
+}
+struct HeroEquipment
+ {
+        public string equipmentName;
+        public int attack;
+        public int ap;
+        public EquipmentType eqType;
+        public HeroEquipment(string equipmentName, int attack,int ap, EquipmentType eqType)
+        {
+            this.equipmentName = equipmentName;
+            this.attack = attack; 
+            this.ap = ap;
+            this.eqType = eqType;
+        }
+}
+
+HeroEquipment adEquipment = new HeroEquipment("饮血剑",100,0,EquipmentType.AdEquipment);
 ```
 
 
@@ -572,3 +604,4 @@ enum Phone {
         }
 ```
 
+### 访问修饰符

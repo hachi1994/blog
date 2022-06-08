@@ -114,7 +114,7 @@ categories:
 2. 采用二进制的思路，全0对应空集，全1对应全集
 3. 根据数组长度决定二进制位数
 4. 遍历二进制各值，使用按位与操作符，生成数组的子集
-   ```
+   ```javascript
     var subsetXORSum = function(nums) {
             let sum = 0;
             len = nums.length;
@@ -136,7 +136,7 @@ categories:
 
 
 
-##  [1. 两数之和](https://leetcode.cn/problems/two-sum/)
+##  [1. 两数之和(Map)](https://leetcode.cn/problems/two-sum/)
 
 给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。
 
@@ -152,7 +152,7 @@ categories:
 
 ### 解法一:暴力循环
 
-```
+```javascript
 /**
  * @param {number[]} nums
  * @param {number} target
@@ -172,15 +172,18 @@ var twoSum = function(nums, target) {
 
 ### 解法二:暴力循环使用js的Map模拟hashMap,用空间换时间.
 
-```
+```javascript
 /**
  * @param {number[]} nums
  * @param {number} target
  * @return {number[]}
  */
 var twoSum = function(nums, target) { 
+    //声明一个map
     let m = new Map()
+    //遍历数组
     for(let i = 0;i<nums.length;i++){
+        //如果map中存在以 要求的和-当前元素的值 为key的元素,则返回这两个元素的index,否则把当前元素作为key,索引作为值加入map
         if(m.has(target - nums[i])){
             return [m.get(target-nums[i]),i]
         }else {
@@ -206,7 +209,7 @@ var twoSum = function(nums, target) {
 
 ### 解法一:数组反转一起遍历
 
-```
+```javascript
 var isPalindrome = function(x) {
    let a1 = x.toString().split("");
    let a2 = x.toString().split("").reverse()
@@ -220,17 +223,17 @@ var isPalindrome = function(x) {
 
 ### 解法二:转字符串转数组取反在对比
 
-```
+```javascript
 var isPalindrome = function(x) {
    return x.toString() === x.toString().split('').reverse().join('')
 }
 ```
 
-## [3. 罗马数字转整数](https://leetcode.cn/problems/roman-to-integer/)
+## [3. 罗马数字转整数(Map)](https://leetcode.cn/problems/roman-to-integer/)
 
 ### 解法:利用map,有限匹配2个字符,否则匹配一个字符
 
-```
+```javascript
 var romanToInt = function(s) {
     // let m = new Map() 
     let result = 0;
@@ -251,6 +254,7 @@ var romanToInt = function(s) {
     };
  
     for(let i = 0;i<s.length;){
+        //匹配两个字符的,否则匹配一个字符的.
         if(i<s.length-1&&m[s.substring(i,i+2)]){
             result+= m[s.substring(i,i+2)]
             i+=2
@@ -261,5 +265,55 @@ var romanToInt = function(s) {
     }
     return result;
 };
+```
+
+## [4. 有效的括号(栈 Map)](https://leetcode.cn/problems/valid-parentheses/)
+
+给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+
+有效字符串需满足：
+
+左括号必须用相同类型的右括号闭合。
+左括号必须以正确的顺序闭合。
+
+思路:将字符串从头到尾进行遍历,如果字符串满足条件,那么必然左侧括号会有一个右侧符号进行对应,可以利用栈的后进先出原则,若没匹配到则将该符号进栈,若匹配到则出栈,最后栈的长度若为0,则满足条件.
+
+<img src='./4_1.png'></img>
+
+```javascript
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function (s) {
+    //字符串长度不为偶数或为空字符串,则直接返回
+    if (s.length % 2 !== 0 || !s) return false
+    //声明符号匹配map,因为是用栈,所以是符号后半部分来匹配前半部分
+    let m = {
+        ')': '(',
+        '}': '{',
+        ']': '['
+    }
+    //声明栈
+    let stack = []
+    //声明当前匹配的字符
+    let current = null
+    //声明栈顶元素
+    let top = stack[0]
+    //从头遍历字符串
+    for (let i = 0; i < s.length; i++) {
+        //当前元素
+        current = s[i]
+        //栈顶元素若不存在则为null
+        top = stack[stack.length - 1] || null
+        //若栈顶元素能和当前元素在m中的对应元素匹配,则将栈顶元素出栈,否则入栈.
+        if (m(current) === top) {
+            stack.pop()
+        } else {
+            stack.push(current)
+        }
+    }
+    return stack.length === 0
+}
 ```
 
