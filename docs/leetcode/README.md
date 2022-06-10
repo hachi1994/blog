@@ -317,3 +317,59 @@ var isValid = function (s) {
 }
 ```
 
+## [5. 合并两个有序链表（链表）](https://leetcode.cn/problems/merge-two-sorted-lists/)-
+
+将两个升序链表合并为一个新的 **升序** 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
+
+```
+输入：l1 = [1,2,4], l2 = [1,3,4]
+输出：[1,1,2,3,4,4]
+```
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} list1
+ * @param {ListNode} list2
+ * @return {ListNode}
+ */
+var mergeTwoLists = function(list1, list2) {
+    //如果链表1为空则返回链表2，否则返回链表1
+    if(!list1)return list2
+    if(!list2)return list1
+    //声明1个空链表
+    let new_link = {
+        val:undefined,
+        next:null
+    }
+    //将空链表的指针指向第一个元素
+    let new_point = new_link
+    //声明p1 p1 为链表1，链表2的第一个元素
+    let p1 = list1
+    let p2 = list2
+    //当两个链表都没有到尾时，比较两个链表相同位置的元素的大小，将结果链表的next指向这个元素。
+    while(p1&&p2){
+        if(p1.val>p2.val){
+            new_point.next = p2
+            p2 = p2.next
+        }else {
+            new_point.next = p1
+            p1 = p1.next
+        }
+        new_point = new_point.next
+    }
+    //直到一个链表到尾部，则证明已将一个链表完全合并进结果链表，则另一个没有到结尾的链表直接接在结果链表的尾部。
+    new_point.next = p1?p1:p2
+    //返回新生成的链表。
+    return new_link.next
+
+
+};
+```
+
