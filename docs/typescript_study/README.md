@@ -834,3 +834,140 @@ console.log(p.age)
     }   
    
    ```
+
+#### 类
+
+##### 继承
+
+```typescript
+class Person {
+    name = 'lhc'
+    say() {
+        console.log(this.name)
+    }
+}
+class Man extends Person {
+    sex = 'man'
+    
+}
+```
+
+##### 重写
+
+```typescript
+class Person {
+    say() {  
+    }
+}
+class Man extends Person {
+    say(): void {    
+        console.log(123)
+    }
+}
+```
+
+##### super关键字
+
+如果想在子类中调用父类的属性或方法,可以使用super关键字
+
+```typescript
+
+class Person {
+    name = 'lhc'
+    say() {
+        console.log(this.name)
+    }
+}
+class Man extends Person {
+    sex = 'man'
+    say(): void {
+        super.say()
+        console.log(this.sex)
+    }
+}
+let m = new Man()
+m.say()
+```
+
+##### 类的访问类型
+
+- public
+
+  允许在类的内部外部调用,类的属性和方法默认都是public
+
+- private
+
+  允许在类的内部使用,外部和继承类中不能使用
+
+- protected
+
+  允许在类的内部以及派生类中使用(继承)
+
+##### 类的构造函数
+
+继承类通过super调用父类的构造函数
+
+<span style='color:red;font-weight:700;'>无论父类有没有构造函数,子类都需要用super调用父类的默认构造函数</span>
+
+```typescript
+class Person {
+    constructor(protected name:string){
+        this.name = name
+    }
+}
+class Man extends Person {
+    constructor(name:string){
+        super(name)
+    }
+    say(){
+        console.log(this.name)
+    }
+}
+let p = new Man('lhc')
+p.say()
+
+```
+
+##### Getter Setter static
+
+Getter 用于获取实例的属性,可以对属性进行包装输出
+
+Setter 用于设置实例的属性,可以对设置的属性进行包装
+
+```typescript
+class Man extends Person {
+    constructor(private _age: number) {
+        this._age = _age
+    }
+    get age() {
+        return this._age
+    }
+    set age(age:number){
+        this._age = age+20;
+    }
+}
+
+
+let p = new Man('lhc', 20)
+console.log(p.age)//20
+p.age = 20
+console.log(p.age)//40
+```
+
+
+
+##### static 静态类
+
+将属性或方法声明为static类型,可以不new实例,直接通过类进行访问和调用
+
+```typescript
+class Person {
+	static n:string = 'lhc'
+	static say():any{
+		console.log(this.name)
+	}
+}
+Person.say()//lhc
+console.log(Person.n)//lhc
+```
+
