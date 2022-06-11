@@ -139,13 +139,13 @@ module.exports = {
       },
       {
         title: 'vue_vite_typescript项目',
-        link: 'https://love.jaelizumi.cn',
+        link: 'http://love.jaelizumi.cn',
         desc: '',
         logo: ''
       },
       {
         title: 'react_umi_typescript项目',
-        link: 'https://umi.jaelizumi.cn',
+        link: 'http://umi.jaelizumi.cn',
         desc: '',
         logo: ''
       }
