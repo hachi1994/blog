@@ -33,9 +33,9 @@ let meting = [
 
 module.exports = {
   title: '尼莫毛毛星球',
-  head:[
-    ['link',{rel:'shortcut icon',href:'/icon/favicon.ico'}],
-    ['meta',{name:'baidu-site-verification',content:'code-u9R685wCgI'}]
+  head: [
+    ['link', { rel: 'shortcut icon', href: '/icon/favicon.ico' }],
+    ['meta', { name: 'baidu-site-verification', content: 'code-u9R685wCgI' }]
   ],
   description: 'nico，momo可真是个臭猪。',
   theme: 'reco',
@@ -49,10 +49,10 @@ module.exports = {
   plugins: [
     'aplayer',
     //meting,
-    ['ribbon',{
-            size: 90, // width of the ribbon, default: 90
-            opacity: 0.8, // opacity of the ribbon, default: 0.3
-            zIndex: -1, // z-index property of the background, default: -1
+    ['ribbon', {
+      size: 90, // width of the ribbon, default: 90
+      opacity: 0.8, // opacity of the ribbon, default: 0.3
+      zIndex: -1, // z-index property of the background, default: -1
     }],
     [
       'cursor-effects',
@@ -108,7 +108,7 @@ module.exports = {
     recordLink: 'https://beian.miit.gov.cn/',
     // cyberSecurityRecord: '公安部备案文案',
     // cyberSecurityLink: '公安部备案指向链接',
-    
+
     // 项目开始时间，只填写年份
     startYear: '2021',
 
@@ -136,13 +136,25 @@ module.exports = {
         link: 'https://github.com/vuepress/awesome-vuepress#plugins',
         desc: '各种vuepress插件',
         logo: ''
+      },
+      {
+        title: 'vue_vite_typescript项目',
+        link: 'https://love.jaelizumi.cn',
+        desc: '',
+        logo: ''
+      },
+      {
+        title: 'react_umi_typescript项目',
+        link: 'https://umi.jaelizumi.cn',
+        desc: '',
+        logo: ''
       }
     ],
     nav: [
       { text: '主页', link: '/' },
       { text: '百度', link: 'https://www.baidu.com' },
       { text: 'love', link: 'http://love.jaelizumi.cn' },
-      { text: 'github', link: 'https://github.com/hachi1994' ,icon:'reco-github'},
+      { text: 'github', link: 'https://github.com/hachi1994', icon: 'reco-github' },
       // { text: '百度', link: 'https://www.baidu.com' },
       // { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
     ]

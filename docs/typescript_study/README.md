@@ -971,3 +971,477 @@ Person.say()//lhc
 console.log(Person.n)//lhc
 ```
 
+##### 只读属性
+
+readonly可以设置一个属性为只读属性，该属性不能被修改。
+
+```typescript
+class P {
+    constructor(public readonly name:string){
+    }
+}
+let p = new P('lhc')
+P.name = 'ccc'//无法分配到 "name" ，因为它是只读属性。
+console.log(p.name,P.name)
+
+```
+
+
+
+##### 抽象类
+
+抽象类里有抽象方法，继承抽象类的类必须实现抽象方法。
+
+```typescript
+abstract class APerson {
+    abstract sayName(): void
+    abstract sayAge(): void
+}
+class Man extends APerson {
+    public sayAge(): void {
+        console.log('i am man 20 years old')
+    }
+    public sayName(): void {
+        console.log('i am a man named cccc')
+    }
+}
+```
+
+#### tsconfig.json 文件
+
+- 使用tsc -init 初始化一个tsconfig.json文件
+- 使用tsc 通过配置文件将ts文件编译成js文件。
+
+
+
+##### 常用配置
+
+- [inclued [] :需要进行编译的文件 支持通配符，会被exclude所排除[https://juejin.cn/post/6924264635218542605]]()
+- exclude [] :不需要进行编译的文件
+- file string[]:需要进行编译的文件，且不会被exclude排除 不能通过正则来匹配，只能制定某个文件
+
+
+
+include和exclude都支持使用通配符：
+
+- `*`匹配零个或者多个字符（包括目录的分隔符）
+- `?`匹配任一字符（包括目录分隔符）
+- `**/`匹配任何层级的嵌套目录
+
+```
+{
+  "include": ["./src/*","./*"],//src文件夹下的不包含再下一级的文件
+  //不包含什么文件
+  "exclude": ["./src/*"],
+  "files": ["class.ts"],
+}
+```
+
+
+
+##### compilerOptions 编译设置
+
+- strict 编译和书写规范严格按照typescript规范来进行。
+
+  - noImplicitAny 允许你的注解类型any不用特意标明，默认为true，必须特别标明any类型
+  - strictNullChecks允许设置null值 默认true 不能设置null
+  - rootDIr 入口文件的目录
+  - outDIr 编译好的文件的路径
+  - sourceMap 方便的显示ts文件中某一行错了
+  - noUnusedLocals： 没有使用的变量不会进行编译，并且会提示
+  - noUnusedParameters： 没有使用的方法不会进行编译，并且会提示
+
+  ```json
+  {
+      "rootDir": "./src",  
+      "outDir": "./build",                                   
+      "removeComments": true, 
+   
+  }
+  ```
+
+  
+
+#### 联合类型和类型保护
+
+当某个值属性或参数可能为多个类型时，可以使用|来分割多个类型。
+
+```typescript
+interface Man {
+    isMan:boolean
+    playBasketball():void
+}
+interface Women {
+    isMan:boolean
+    watchTV():void
+}
+
+function operate(people: Man | Women) {
+    if (people.isMan){
+        (people as Man).playBasketball()
+    }else {
+        (people as Women).watchTV()
+    }
+}
+```
+
+##### 类型保护
+
+避免效用不存在与对象中的方法，可以使用类型保护
+
+1. 断言 as
+
+2. in 关键字
+
+   ```typescript
+   function operate(people: Man | Women) {
+       //as断言
+       if (people.isMan){
+            (people as Man).playBasketball()
+        }else {
+            (people as Women).watchTV()
+        }
+   
+       //in的方式
+       if("playBasketball" in people){
+           people.playBasketball()
+       }else {
+           people.watchTV()
+       }
+   }
+   ```
+
+   
+
+3.  typeof 
+
+   ```typescript
+   function add(n1: string | number, n2: string | number) {
+       if (typeof n1 === 'string' || typeof n2 === 'string') {
+           return `${n1} + ${n2}`;
+       }
+       return n1 + n2;
+   }
+   ```
+
+   
+
+4. instanceof 用于类
+
+   ```typescript
+   class O_1 {
+       age:number = 30
+   }
+   class O_2 {
+       age:number = 20
+   }
+    function addAge(o1:object|O_1,o2:object|O_2){
+       if(o1 instanceof O_1&& o2 instanceof O_2){
+           return o1.age + o2.age
+       }
+    }
+   ```
+
+
+
+
+
+
+
+
+
+#### 枚举 enum
+
+使代码可读性更强
+
+```typescript
+enum Car {
+    Benz,
+    Bmw,
+    Toyota
+}
+console.log(Car.Benz)//0
+console.log(Car[0])//Benz
+```
+
+#### 泛型
+
+用于制定多种类型
+
+##### 泛型用于函数
+
+```typescript
+function pj<T>(n1: T, n2: T) {
+    return `${n1}$${n2}`
+}
+function add<T1, T2>(n1: T1, n2: T2) {
+    if (typeof n1 === 'number' && typeof n2 === 'number') {
+        return n1 + n2;
+    }
+}
+console.log(add<number,number>(4,5))
+```
+
+限定传入类型和返回类型相同
+
+```typescript
+function returnNum<T>(n:T):T{
+    return n;
+}
+returnNum<number>(2)
+```
+
+##### 泛型用于类
+
+大大增加程序可读性，继承来约定必须有的内容，约束来约束参数的类型或返回值得类型。
+
+```typescript
+class List <T> {
+    constructor(private list:Array<T>){
+        this.list = list
+    }
+    returnListItem(index:number):T{
+        return this.list[index]
+    }
+}
+let strList = new List<String>(["1","2","3"])
+console.log(strList.returnListItem(1))
+```
+
+
+
+###### 泛型的继承
+
+ 
+
+```typescript
+
+interface ItemHasAge {
+    age:number
+}
+class List <T extends ItemHasAge> {
+    constructor(private list:Array<T>){
+        this.list = list
+    }
+    returnListItem(index:number):number{
+        return this.list[index].age
+    }
+}
+let strList = new List([{age:20}])
+console.log(strList.returnListItem(1))
+```
+
+###### 泛型的约束
+
+```typescript
+class List <T extends number|string> {
+    constructor(private list:Array<T>){
+        this.list = list
+    }
+    returnListItem(index:number):T{
+        return this.list[index]
+    }
+}
+let strList = new List<string>(["1"])
+console.log(strList.returnListItem(1))
+```
+
+#### 命名空间 namespace
+
+**可以减少全局变量污染**
+
+以下代码将Header约束在Home明明空间内，只向外暴露了Home变量，编译后在页面中通过Home.Page()进行初始化
+
+```typescript
+//page.ts
+namespace Home {
+    class Header{
+        constructor(){
+            const elem = document.createElement('div')
+            elem.innerText = 'Headeer'
+            document.body.append(elem)
+        }
+    }
+    export class Page {
+        constructor(){
+            new Header()
+        }
+    }
+}
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./build/page.js"></script>
+</head>
+<body>
+    <script>
+        console.log(Home)//{Page:{}}
+        new Home.Page()
+    </script>
+</body>
+</html>
+
+
+```
+
+##### 多个ts文件打包为一个文件
+
+**修改tscongfig.json文件的outFIle和module字段,会将多个ts文件打包成一个page.js文件**
+
+`"outFile": "./build/page.js",  `
+
+`"module": "AMD", `
+
+**拆分ts文件，使用多个命名空间进行隔离**
+
+```
+//components.ts
+namespace Components {
+    export class Header {
+        constructor() {
+            const elem = document.createElement('div')
+            elem.innerText = 'Headeer'
+            document.body.append(elem)
+        }
+    }
+}
+//page.ts
+namespace Home {
+    export class Page {
+        constructor(){
+            new Components.Header()
+        }
+    }
+}
+
+```
+
+在html文件中只需要引入page.js
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./build/page.js"></script>
+</head>
+<body>
+    <script>
+        console.log(Home)
+        new Home.Page()
+    </script>
+</body>
+</html>
+
+
+```
+
+##### 命名空间嵌套
+
+可以在命名空间中嵌套命名空间。通过export导出，可以通过.来访问
+
+```typescript
+namespace Components {
+    export class Header {
+        constructor() {
+            const elem = document.createElement('div')
+            elem.innerText = 'Headeer'
+            document.body.append(elem)
+        }
+    }
+    export namespace SubComponents {
+        export class SubHeader {
+            constructor(){
+                console.log(222)
+            }
+        }
+    }
+}
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./build/page.js"></script>
+</head>
+<body>
+    <script>
+        console.log(Home,Components)
+        new Home.Page()
+        new Components.SubComponents.SubHeader()
+    </script>
+</body>
+</html>
+
+
+```
+
+#### parcel打包
+
+1. 新建src目录，创建index.html文件，page.ts文件，直接在index.html文件中引入page.ts文件
+2. 修改tsconfig.json 的rootDir，outDir
+3. 安装pancel
+4. 使用parcel src/index.html命令进行打包
+
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+   
+</body>
+
+</html>
+<script src="./page.ts"></script>
+
+```
+
+
+
+
+
+
+
+```typescript
+//page.ts
+const teacher:string = '123 '
+document.body.innerHTML = teacher
+console.log(teacher)
+```
+
+
+
+#### 引入其他库
+
+##### 引入jquery
+
+:hamburger:使用.d.ts文件
+
+:hamburger:declare var $:any
+
+
+
