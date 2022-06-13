@@ -974,3 +974,27 @@ console.log(Person.prototype)//{}
 console.log(Person === Person.prototype.constructor)//true
 ```
 
+**当使用类创建一个实例时，该实例的将默认使用该类当成构造函数，而不是调用类中的constructor，所以实例不是**
+
+**Person.constructor 的实例，而是类的实例，**
+
+**当直接使用类的构造函数实例化时，该实例就是该构造函数的实例**
+
+```javascript
+class Person {
+    constructor(override) {
+        this.name = 'person'
+        if (override) {
+            return {
+                name: 'override'
+            }
+        }
+    }
+}
+
+let p = new Person()
+let p1 = new Person.constructor()
+console.log(p.constructor === Person, p instanceof Person, p instanceof Person.constructor)//true true false
+console.log(p1.constructor === Person, p1 instanceof Person, p1 instanceof Person.constructor)//false false true
+```
+
