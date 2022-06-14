@@ -998,3 +998,194 @@ console.log(p.constructor === Person, p instanceof Person, p instanceof Person.c
 console.log(p1.constructor === Person, p1 instanceof Person, p1 instanceof Person.constructor)//false false true
 ```
 
+#### 实例、原型和类成员
+
+##### 实例成员
+
+
+
+每次通过new调用类标识符时，都会执行类构造函数。在这个函数内部，可以为新创建的实例（this） 添加“自有”属性。至于添加什么样的属性，则没有限制。另外，在构造函数执行完毕后，仍然可以给 实例继续添加新成员。 每个实例都对应一个唯一的成员对象，这意味着所有成员都不会在原型上共享
+
+
+
+##### 原型方法
+
+定义在类块中的方法为原型方法,可以实现实例间的共享
+
+```typescript
+class Man{
+    say(){
+        console.log('hi');
+        
+    }
+}
+let m1:Man = new Man()
+Man.prototype.say()//hi
+m1.say()//hi
+```
+
+##### :bulb: 访问器
+
+类支持获取和设置访问器
+
+```typescript
+class Person {
+    constructor(private _name:string){
+        this._name = _name
+    }
+    get n(){
+        console.log('helo')
+        return this._name
+    }
+    set n(v:string){
+        this._name = v
+    }
+
+}
+let p:Person = new Person("lhc")
+console.log(p.n)//lhc
+p.n = 'ame'
+console.log(p.n)//ame
+```
+
+##### 静态类方法
+
+可以在类上定义静态方法。这些方法通常用于执行不特定于实例的操作，也不要求存在类的实例。
+
+与原型成员类似，静态成员每个类上只能有一个
+
+
+
+```typescript
+class Test {
+    constructor() {
+        this.sayThis = function(){
+            console.log('this',this)
+        }
+    }
+    public sayThis(): void {
+        console.log('prototype',this)
+    }
+    public sayPrototyype(): void {
+        console.log('prototype',this.constructor)
+    }
+    static sayThiss(): void {
+        console.log('class', this)
+    }
+}
+
+let t:Test = new Test();
+t.sayPrototyype()//prototype [class Test]
+t.sayThis()//this Test { sayThis: [Function (anonymous)] }
+Test.prototype.sayThis()//prototype {}
+Test.sayThiss()//class [class Test]
+```
+
+##### :alarm_clock: 迭代器方法
+
+类支持定义迭代器方法,也可以将类变成一个可迭代对象.
+
+```typescript
+class IteratorClass {
+    *yieldFunction(){
+        yield 1
+        yield 2
+        yield 3
+
+    }
+}
+let i:IteratorClass = new IteratorClass()
+let it = i.yieldFunction()
+for (const iterator of it) {
+    console.log(iterator)//1 2 3
+}
+```
+
+```typescript
+class NameClass {
+    constructor(public nameList: string[]) {
+        this.nameList = nameList
+    }
+    //直接将类变成可迭代对象
+    *[Symbol.iterator]() {
+        yield* this.nameList.entries()
+    }
+}
+let n:NameClass = new NameClass(["a","b","c"])
+
+for (const iterator of n) {
+    console.log(iterator[0],iterator[1])// 0 a 1 b 2 c
+}
+```
+
+```typescript
+class NameClass {
+    constructor(public nameList: string[]) {
+        this.nameList = nameList
+    }
+    //直接返回迭代器实例
+    [Symbol.iterator]() {
+        return this.nameList.entries()
+    }
+}
+let n:NameClass = new NameClass(["a","b","c"])
+
+for (const iterator of n) {
+    console.log(iterator[0],iterator[1])// 0 a 1 b 2 c
+}
+```
+
+#### :red_circle: 继承
+
+**类继承使用的是新语法，但背后依旧使用的是原型链。**
+
+ES6 类支持单继承。使用 extends 关键字，就可以继承任何拥有[[Construct]]和原型的对象。 很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（保持向后兼容）
+
+##### 构造函数、HomeObject 和 super()
+
+派生类的方法可以通过 super 关键字引用它们的原型。这个关键字只能在派生类中使用，而且仅 限于类构造函数、实例方法和静态方法内部。在类构造函数中使用 super 可以调用父类构造函数。
+
+:one:super 只能在派生类构造函数和静态方法中使用。
+
+:two:不能单独引用 super 关键字，要么用它调用构造函数，要么用它引用静态方法
+
+:three:调用 super()会调用父类构造函数，并将返回的实例赋值给 this。
+
+:four:super()的行为如同调用构造函数，如果需要给父类构造函数传参，则需要手动传入。
+
+:five:如果没有定义类构造函数，在实例化派生类时会调用 super()，而且会传入所有传给派生类的 参数。
+
+:six:在类构造函数中，不能在调用 super()之前引用 this。
+
+:seven:如果在派生类中显式定义了构造函数，则要么必须在其中调用 super()，要么必须在其中返回 一个对象
+
+
+
+##### 抽象基类
+
+使用 new.target可以实现基类只需要被继承,而不必实例化.
+
+```typescript
+class Father {
+    constructor(){
+        if(new.target === Father){
+            throw new Error('基类不能被实例化!')
+        }
+    }
+}
+
+class Son extends Father {
+    constructor(){
+        super()
+
+    }
+}
+
+let s:Son = new Son()//class Son {}
+let f:Father = new Father()//Error: 基类不能被实例化!
+```
+
+### 代理与反射
+
+
+

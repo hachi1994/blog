@@ -373,3 +373,94 @@ var mergeTwoLists = function(list1, list2) {
 };
 ```
 
+## [6. 删除有序数组中的重复项(快指针,慢指针)](https://leetcode.cn/problems/remove-duplicates-from-sorted-array/)
+
+给你一个 升序排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
+
+由于在某些语言中不能改变数组的长度，所以必须将结果放在数组nums的第一部分。更规范地说，如果在删除重复项之后有 k 个元素，那么 nums 的前 k 个元素应该保存最终结果。
+
+将最终结果插入 nums 的前 k 个位置后返回 k 。
+
+不要使用额外的空间，你必须在 原地 修改输入数组 并在使用 O(1) 额外空间的条件下完成。
+
+
+
+输入：nums = [0,0,1,1,1,2,2,3,3,4]
+输出：5, nums = [0,1,2,3,4]
+解释：函数应该返回新的长度 5 ， 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4 。不需要考虑数组中超出新长度后面的元素。
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    //声明一个慢指针
+    let i = 0
+    //用快指针j遍历数组
+    for(let j =1;j<nums.length;j++){
+        //比较快指针和慢指针对应的数组值,如果快指针和慢指针对应的值不相等,慢指针+1,用快指针的值替换
+        if(nums[i]!==nums[j]){
+            i++
+            nums[i] = nums[j]
+        }
+    }
+    //只返回项目不重复部分的长度
+    return i+1
+
+};
+```
+
+## [7. 删除数组重复项(双指针,splice)](https://leetcode.cn/problems/remove-element/)
+
+
+
+给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。
+
+不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。
+
+元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+
+
+
+输入：nums = [0,1,2,2,3,0,4,2], val = 2
+输出：5, nums = [0,1,4,0,3]
+解释：函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。注意这五个元素可为任意顺序。你不需要考虑数组中超出新长度后面的元素。
+
+### 解法1:遍历数组通过splice删除重复项,要对当前索引进行操作
+
+```javascript
+var removeElement = function(nums, val) {
+    for(let i = 0;i<nums.length;){
+        if(nums[i]==val){
+       		//删除一个元素同时指针向前移避免遗漏元素
+            nums.splice(i,1)
+            i--;
+        }else {
+        	//正常递增
+            i++
+        }
+    }
+    return nums.length
+};
+
+```
+
+### 解法2:删除指定元素,直到数组中不在存在该元素
+
+```javascript
+var removeElement = function(nums, val) {
+	//声明指针
+    let index;
+    while(true){
+    	//获取指定元素在数组中的位置
+        index = nums.indexOf(val)
+        //不存在则跳出循环
+        if(index===-1)break
+        //存在则删除指定项
+        nums.splice(index,1)
+    }
+    return nums.length
+};
+```
+
