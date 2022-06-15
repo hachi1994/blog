@@ -9,7 +9,7 @@ categories:
  - 数据结构
 ---
 
-### 算法
+## 算法
 
 #### 算法的定义<img width=50 src='https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fdingyue.ws.126.net%2F2019%2F04%2F26%2Fb28f072f389145abb3f1c471e18e7e20.jpeg&refer=http%3A%2F%2Fdingyue.ws.126.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1635578545&t=1e069fc93c7d7dfdb9eb01acf2ba16bf' alt='算法的定义'>
 
@@ -96,40 +96,30 @@ categories:
 <img src='https://zardluansource.obs.cn-east-2.myhuaweicloud.com/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%8E%92%E5%BA%8F.png'>
 
 
-### 线性表
+## 数组和链表
 
-#### 顺序存储结构的线性表
+### 数组基本原理
 
-顺序存储结构的线性表可以用一个一维数组来表示。
-```
-//使用js实现一个顺序存储结构的线性表
-let list = [4, 5, 2, 6]
-//插入一个元素
-function insertItem(item, i, list) {
-    if (i < 0 || i > list.length) {
-        console.log('错误的插入位置！')
-    }
-    for (let j = list.length - 1; j >= i; j--) {
-        list[j + 1] = list[j]
-    }
-    list[i] = item
-    return list
-}
-//从线性表中删除一个元素并返回删除的元素和删除后的线性表
-function delItem(i, list) {
-    let delItem = list[i]
-    if(list.length==0){console.log('表为空！')}
-    if (i < 0 || i > list.length) { console.log('错误的位置！') }
-    for(let j = i;j<=list.length-1;j++){
-        list[j] = list[j+1]
-    }
-    list.length--
-    return {
-        list,
-        delItem
-    }
+#### 数组是紧凑存储的
 
-}
-```
+数组可以准确访问，当我们知道数组第一个元素的位置，已经存储的数据类型，就可以获得对应位置索引的内存地址。
+
+已知int[]的起始位置地址为x，则arr[3]的内存地址为x + 3*4 每个int类型的数据占4个字节。x+12 ~ x+16 则为这个arr[3]的占内存大小。
+
+<img src='./arr_1.png'>
+
+
+
 <p style='color:red;'>优点：无须为表示表中元素之间的逻辑关系而增加额外的存储空间；可以快速的存取表中任一位置的元素。</p>
-<p style='color:green;'>缺点：插入和删除操作需要移动大量元素；当线性表长度变化较大时，难以确定存储空间的容量；造成存储空间的‘碎片’</p>
+<p style='color:green;'>缺点：插入和删除操作需要移动大量元素；当线性表长度变化较大时，难以确定存储空间的容量；造成存储空间的‘碎片’,且数组长度在声明时就固定了，所以当数组装满了，则需要再申请一个更大的内存，将之前的元素copy到新的内存中。</p>
+
+### 链表
+
+链表的内存不是连续分配的。
+
+链表的每个节点是分散在内存中各个位置的，链表不是紧凑存储，无法推测某个节点在内存中的准确位置。
+
+ <p style='color:red;'>优点：插入和删除元素比较方便。</p>
+<p style='color:green;'>缺点：无法通过索引访问元素，存储元素时还要存储指针。</p>
+
+<img src='./list_1.png'>
