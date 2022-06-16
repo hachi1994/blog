@@ -123,3 +123,135 @@ categories:
 <p style='color:green;'>缺点：无法通过索引访问元素，存储元素时还要存储指针。</p>
 
 <img src='./list_1.png'>
+
+### 数组的实现
+
+#### TypeScript版本
+
+ ```typescript
+ namespace MyArrayList {
+     class MyArrayList<E>{
+         constructor(public length: number) {
+             this.maxLength = length;
+         }
+         //数组实际占用的内存长度
+         private data: E[] = [];
+         //数组的长度
+         private maxLength: number = 0;
+         //数组实际有数据的长度
+         private size: number = 0;
+         //获取索引index位置的元素
+         public get(index: number): E {
+             this.checkElementIndex(index);
+             return this.data[index];
+ 
+         }
+         getArrayList(): E[] {
+ 
+             return this.data.slice(0, this.size);
+         }
+         //在某位置添加一个元素
+         addIndex(index: number, value: E) {
+             this.checkPositionIndex(index);
+             let temp: E[] = this.data.slice(0, index);
+             temp.push(value)
+             for (let i = index; i < this.data.length; i++) {
+                 temp.push(this.data[i])
+             }
+             this.data = temp
+             this.size = temp.length
+ 
+         }
+         //在某个位置删除一个元素,并返回被删除的元素
+         removeIndex(index: number) {
+             this.checkElementIndex(index);
+             let temp: E[] = [];
+             let delVal = this.data[index];
+             this.data.copyWithin(index, index + 1, this.size);
+             this.size--;
+             for (let i = 0; i < this.size; i++) {
+                 temp.push(this.data[i]);
+             }
+             this.data = temp;
+             return delVal;
+ 
+         }
+         // 设置索引index位置的元素,并返回原来的元素
+         public set(index: number, value: E): E {
+             this.checkElementIndex(index);
+             let oldVlue: E = this.data[index];
+             this.data[index] = value;
+             return oldVlue;
+ 
+         }
+         //向尾部添加一个元素
+         public addLast(value: E): void {
+ 
+             if (this.data.length === this.maxLength) {
+                 //扩容
+                 this.resize(this.data.length * 2);
+             }
+             this.data[this.size] = value;
+             this.size++;
+         }
+         //删除数组最后一个元素并返回该元素
+         public removeLast(): E {
+             //如果数组为空，则抛出异常
+             if (this.isEmpty()) {
+                 throw new Error('无法删除!');
+             }
+             //如果数组的实际长度过短，缩容
+             if (this.data.length < this.maxLength / 4) {
+                 this.resize(this.maxLength / 2);
+             }
+             //返回被删除的项
+             let delValue: E = this.data[this.size - 1];
+             //长度-1
+             this.size--;
+             return delValue;
+ 
+         }
+         //扩容缩容
+         public resize(newLength: number): void {
+             let temp: E[] = ([] as E[]).concat(this.data);
+             this.data = temp;
+             this.maxLength = newLength;
+         }
+         //判断数组是否是空的
+         public isEmpty(): boolean {
+             if (this.size === 0) {
+                 return true;
+             } else {
+                 return false;
+             }
+         }
+         public checkElementIndex(index: number) {
+             if (!this.isElementIndex(index)) {
+                 throw new Error(`${index}out Bounds ${this.maxLength}`);
+             }
+         }
+         public checkPositionIndex(index: number) {
+             if (!this.isPositionIndex(index)) {
+                 throw new Error(`${index}out Bounds ${this.maxLength}`);
+             }
+         }
+         //判断索引位置是否可以存在元素
+         private isElementIndex(index: number): boolean {
+             if (index < this.size && index >= 0) {
+                 return true;
+             }
+             return false;
+         }
+         //判断索引位置是否可以添加元素,则需要判断到数组末尾后一个元素，因为要添加
+         private isPositionIndex(index: number): boolean {
+             if (index <= this.size && index >= 0) {
+                 return true;
+             }
+             return false;
+         }
+ 
+     }
+     let arrayList: MyArrayList<string> = new MyArrayList<string>(20);
+ }
+ ```
+
