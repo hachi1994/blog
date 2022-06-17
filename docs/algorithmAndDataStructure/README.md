@@ -255,3 +255,129 @@ categories:
  }
  ```
 
+### 链表的实现
+
+ <img src='myLinkList_1.png'>
+
+```typescript
+namespace MyLinkList {
+    //定义一个节点类型
+
+    class Node<E>{
+        public next: Node<E>
+        public prev: Node<E>
+        constructor(public val: E) {
+            this.val = val;
+        }
+    }
+    class MyLinkList<E>  {
+        //声明头节点
+        private head: Node<E>
+        //声明尾节点
+        private tail: Node<E>
+        //声明链表的长度
+        private size: number;
+        //初始化链表
+        constructor() {
+            this.head = new Node<E>(null);
+            this.tail = new Node<E>(null);
+            this.head.prev = this.tail;
+            this.tail.next = this.head;
+            this.size = 0;
+        }
+        //从头向链表插入一个元素
+        addFirst(e: E) {
+            let temp: Node<E> = this.head.next;
+            let newNode: Node<E> = new Node<E>(e);
+            newNode.next = temp;
+            newNode.prev = this.head;
+            this.head.next = newNode;
+            temp.prev = newNode;
+            this.size++;
+        }
+        //
+        addLast(e: E): void {
+            this.size++;
+        }
+        //
+        add(index: number, e: E): void {
+            this.checkPositionIndex(index);
+            this.size++;
+        }
+        //
+        removeFirst() {
+            if (this.isEmpty()) {
+                throw new Error('no such element');
+            }
+            this.size--;
+        }
+        //
+        removeLast(): void {
+            if (this.isEmpty()) {
+                throw new Error('no such element');
+            }
+            this.size--;
+        }
+        //
+        remove(index: number): void {
+            this.checkElementIndex(index);
+            this.size--;
+        }
+        //
+        getFirst(index: number): E {
+            if (this.isEmpty()) {
+                throw new Error('no such element');
+            }
+            return;
+
+        }
+        //
+        getLast(index: number): E {
+            if (this.isEmpty()) {
+                throw new Error('no such element');
+            }
+            return;
+        }
+        //
+        get(index: number): E {
+            this.checkElementIndex(index);
+            return;
+        }
+        //
+        set(index: number, e: E) {
+            this.checkElementIndex(index);
+        }
+        //获取链表长度
+        public getSize(): number {
+            return this.size;
+        }
+        //判断链表是否为空
+        public isEmpty(): boolean {
+            return this.size === 0;
+        }
+        //该位置是否存在元素
+        private isElementIndex(index: number): boolean {
+            return index >= 0 && index < this.size;
+        }
+        //该位置是否可以插入元素
+        private isPostitonIndex(index: number): boolean {
+            return index >= 0 && index <= this.size;
+
+        }
+        private checkElementIndex(index: number): void {
+            if (!this.isElementIndex(index)) {
+                throw new Error(`${index} out of bounds ${this.size}`)
+            }
+        }
+        private checkPositionIndex(index: number): void {
+            if (!this.isPostitonIndex(index)) {
+                throw new Error(`${index} out of bounds ${this.size}`)
+            }
+        }
+    }
+    let myLinkList: MyLinkList<string> = new MyLinkList<string>()
+    myLinkList.addFirst("1");
+
+}
+```
+

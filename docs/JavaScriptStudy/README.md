@@ -1187,5 +1187,87 @@ let f:Father = new Father()//Error: 基类不能被实例化!
 
 ### 代理与反射
 
+代理和反射为开发者提供了拦截并向基本操作嵌入额外行为的能力,可以对对目标对象进行的操作加以控制.
+
+#### 空代理
+
+定义一个空代理`let proxy = new Proxy({},{});`,第一个参数为目标对象,第二个对象为处理程序.
+
+对代理对象或目标对象的操作和访问会同时反映到目标对象和或目标对象上,因为他们操作的实际是同一个对象.
+
+```typescript
+let target = {
+    age:20
+}
+let proxy = new Proxy(target,{});
+proxy.age = 3;
+target.age = 21;
+console.log(target.age,proxy.age);//21 21
+```
+
+目标对象和代理对象严格不相等
+
+`console.log(target===proxy);//false`
+
+#### 定义各种捕获器
+
+##### get
+
+最简洁的写法是借助Reflect可以更方便执行捕获器的默认行为.
+
+```typescript
+let target = {
+    age:20
+}
+let proxy = new Proxy(target,{
+    get:function(...arguments) {
+        return Reflect.get(...arguments) + '被获取';
+    }
+});
+
+console.log(proxy.age)//20被获取
+```
+
+#### 撤销代理
+
+撤销需要调用revoke()方法
+
+撤销函数和代理对象是在实例化时同时生成的
+
+```typescript
+let target = {
+    age:20
+}
+let {proxy,revoke} =  Proxy.revocable(target,{
+    get:function(...arguments) {
+        return Reflect.get(...arguments) + '被获取';
+    }
+});
+console.log(proxy.age)//20被获取
+revoke()
+console.log(proxy.age)//Cannot perform 'get' on a proxy that has been revoked
+```
+
+#### 代理另一个代理
+
+```
+let target = {
+    age: 20
+}
+let { proxy, revoke } = Proxy.revocable(target, {
+    get: function (...arguments) {
+        return Reflect.get(...arguments) + '被获取';
+    }
+});
+let { proxy: otherProxy, revoke: otherRevoke } = Proxy.revocable(proxy, {
+    get: function (...arguments) {
+        return Reflect.get(...arguments) + '被获取';
+    }
+})
+console.log(otherProxy.age)//20被获取被获取
+```
+
+
+
 
 

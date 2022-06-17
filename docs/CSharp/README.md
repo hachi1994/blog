@@ -726,7 +726,8 @@ void表示无返回值
 ```c#
     class Hero
     {
-        private hp;
+        private int hp;
+        public int Age {set;get; }
         public int Hp
         {
             get { 
@@ -746,9 +747,73 @@ Console.WriteLine(lhc.Hp);//1422
 
 **<span style='color:red'>不要set里继续set或不要再get继续get,否则会死循环.</span>**
 
+get和set可以设置private,在当前类可见,在当前类以外不可读不可写.
 
 
 
+#### 方法的参数
+
+##### 形参
+
+函数接受的形式参数,和函数外的同名参数不互相影响,只在函数内能访问到.
+
+##### 实参
+
+传递给方法的实际参数.
+
+##### 引用参数
+
+**引用参数必须赋初值!**
+
+**引用类型一般用在值类型参数前面**
+
+传入实参时带上ref关键字,就能使该参数变成引用参数.函数内对参数的操作会影响外面的参数.
+
+```typescript
+    static void Main(string[] args)
+    {
+         void ChangeNum(ref int v1,ref int v2)
+        {
+            int temp = v1;
+            v1 = v2;
+            v2 = temp;
+                    
+        }
+        int v1 = 20;
+        int v2 = 30;
+        ChangeNum(ref v1, ref v2);
+        Console.WriteLine($"{v1},{v2}");//30 20
+    }
+```
+
+##### 输出参数
+
+方法的参数前面加out关键字,可以将该参数定义为输出参数,作为函数的出口,可以定义多个输出参数,所以可以返回多个结果.
+
+调用方法时也要在输出参数前加out.
+
+```
+static void Main(string[] args)
+    {
+        void ChangeNum(int v1,int v2 ,out int r1,out int r2)
+        {
+            r1 = v1 + v2;
+            r2 = v1 * v2;
+                    
+        }
+        int v1 = 20;
+        int v2 = 30;
+        ChangeNum(v1, v2,out int r1,out int r2);
+        Console.WriteLine($"{r1}---{r2}");//50---500
+        
+    }
+```
+
+
+
+
+
+`
 
 
 
