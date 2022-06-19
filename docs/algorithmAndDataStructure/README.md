@@ -255,7 +255,7 @@ categories:
  }
  ```
 
-### 链表的实现
+### 双链表的实现
 
  <img src='myLinkList_1.png'>
 
@@ -281,71 +281,125 @@ namespace MyLinkList {
         constructor() {
             this.head = new Node<E>(null);
             this.tail = new Node<E>(null);
-            this.head.prev = this.tail;
-            this.tail.next = this.head;
+            this.head.next = this.tail;
+            this.tail.prev = this.head;
             this.size = 0;
         }
         //从头向链表插入一个元素
         addFirst(e: E) {
+            //存储头节点的下一个节点
             let temp: Node<E> = this.head.next;
+            //创建新节点
             let newNode: Node<E> = new Node<E>(e);
+            //新节点的next为头节点的下一个
             newNode.next = temp;
+            //新节点的prev为头节点
             newNode.prev = this.head;
+            //头节点的next为新节点
             this.head.next = newNode;
+            //存储头节点的下一个节点的prev为新节点
             temp.prev = newNode;
+            //链表长度+1
             this.size++;
         }
-        //
+        //从链表尾部插入一个元素
         addLast(e: E): void {
+            //保存原有的最后一个节点
+            let temp: Node<E> = this.tail.prev;
+            //创建新节点
+            let newNode: Node<E> = new Node<E>(e);
+            //新节点的next为尾节点，prev为原最后一个节点
+            newNode.next = this.tail;
+            newNode.prev = temp;
+            //原最后一个节点的next为新节点
+            temp.next = newNode;
+            //尾节点的上一个节点为新节点
+            this.tail.prev = newNode;
             this.size++;
         }
-        //
+        //向链表第index位置插入一个值
         add(index: number, e: E): void {
             this.checkPositionIndex(index);
+            let temp: Node<E> = this.getNode(index);
+            let newNode: Node<E> = new Node<E>(e);
+            let lastNode: Node<E> = temp.prev;
+
+            newNode.next = temp;
+            newNode.prev = lastNode;
+            lastNode.next = newNode;
+            temp.prev = newNode
+
             this.size++;
         }
-        //
-        removeFirst() {
+        //删除头部节点，并返回删除的值
+        removeFirst(): E {
             if (this.isEmpty()) {
                 throw new Error('no such element');
             }
+            let delNode: Node<E> = this.head.next;
+            let temp: Node<E> = delNode.next;
+            this.head.next = temp;
+            temp.prev = this.head;
+            delNode.next = null;
+            delNode.prev = null;
             this.size--;
+            return delNode.val;
         }
-        //
-        removeLast(): void {
+        //删除尾部节点，并返回删除的值
+        removeLast(): E {
             if (this.isEmpty()) {
                 throw new Error('no such element');
             }
+            let delNode: Node<E> = this.tail.prev;
+            let temp: Node<E> = delNode.prev;
+            temp.next = this.tail;
+            this.tail.prev = temp;
+            delNode.next = null;
+            delNode.prev = null;
             this.size--;
+            return delNode.val;
         }
-        //
-        remove(index: number): void {
+        //删除某个节点并返回值
+        remove(index: number): E {
             this.checkElementIndex(index);
+            let delNode: Node<E> = this.getNode(index);
+            let lastNode: Node<E> = delNode.prev;
+            let nextNode: Node<E> = delNode.next;
+            lastNode.next = nextNode;
+            nextNode.prev = lastNode;
+            delNode.next = null;
+            delNode.prev = null;
             this.size--;
+            return delNode.val;
         }
-        //
-        getFirst(index: number): E {
+        //返回第一个节点的值
+        getFirst(): E {
             if (this.isEmpty()) {
                 throw new Error('no such element');
             }
-            return;
+            return this.head.next.val;
 
         }
-        //
-        getLast(index: number): E {
+        //返回最后一个节点的值
+        getLast(): E {
             if (this.isEmpty()) {
                 throw new Error('no such element');
             }
-            return;
+            return this.tail.prev.val;
         }
-        //
+        //获取某个节点
         get(index: number): E {
             this.checkElementIndex(index);
-            return;
+            let Node: Node<E> = this.getNode(index);
+            return Node.val;
         }
-        //
+        //设置某个节点的值
         set(index: number, e: E) {
             this.checkElementIndex(index);
+            let Node: Node<E> = this.getNode(index);
+            let oldValue: E = Node.val;
+            Node.val = e;
+            return oldValue;
         }
         //获取链表长度
         public getSize(): number {
@@ -374,10 +428,302 @@ namespace MyLinkList {
                 throw new Error(`${index} out of bounds ${this.size}`)
             }
         }
+
+        //返回index对应的Node
+        private getNode(index: number): Node<E> {
+            //声明一个指针从第一个节点开始遍历
+            let p: Node<E> = this.head.next;
+            for (let i = 0; i < index; i++) {
+                p = p.next;
+            }
+            return p;
+        }
     }
     let myLinkList: MyLinkList<string> = new MyLinkList<string>()
     myLinkList.addFirst("1");
+    myLinkList.addLast("b");
+    myLinkList.removeLast();
+    myLinkList.add(1, "C")
+    myLinkList.remove(1)
+    myLinkList.set(0,'hin')
+    console.log(myLinkList.get(0), myLinkList.getFirst(), myLinkList.getLast())
+    // console.log(myLinkList.get(1),myLinkList.getSize())
+}
+```
+
+### 实现单链表
+
+```typescript
+
+namespace MySingleLinkList {
+    class MySingleLinkListNode<E> {
+        public next: MySingleLinkListNode<E>;
+        public val: E;
+        constructor(val: E) {
+            this.val = val;
+        }
+    }
+
+    class MySingleLinkList<E>{
+        //声明头尾哨兵节点
+        private head: MySingleLinkListNode<E>;
+        private tail: MySingleLinkListNode<E>;
+        //声明链表长度
+        private size: number;
+        constructor() {
+            this.head = new MySingleLinkListNode<E>(null);
+            this.tail = new MySingleLinkListNode<E>(null);
+            this.head.next = this.tail;
+            this.size = 0;
+        }
+        /**
+         * 向链表头插入一个节点
+         * @param val 插入的值
+         */
+        public addFirst(val: E): void {
+            let newNode = new MySingleLinkListNode<E>(val);
+            let nextNode = this.head.next;
+
+            this.head.next = newNode;
+            newNode.next = nextNode;
+            this.size++;
+
+        }
+        /**
+         * 向链表尾部插入一个节点
+         * @param val 插入的值
+         */
+        public addLast(val: E): void {
+            let newNode = new MySingleLinkListNode<E>(val);
+            //获取倒数第一个节点，将该节点的next设置为新节点，并将新节点的next设置为tail
+            let temp = this.getNode(this.size - 1);
+            newNode.next = this.tail;
+            temp.next = newNode;
+            this.size++;
+        }
+        /**
+         * 向制定位置插入一个节点
+         * @param index 插入位置索引
+         * @param val 值
+         */
+        public add(index: number, val: E): void {
+            this.checkIsPositionIndex(index);
+            let newNode: MySingleLinkListNode<E> = new MySingleLinkListNode<E>(val);
+            let temp: MySingleLinkListNode<E> = this.getNode(index - 1);
+            let nextNode = temp.next;
+            temp.next = newNode;
+            newNode.next = nextNode;
+            this.size++;
+        }
+        /**
+         * 删除第一个节点
+         * @returns 删除的值
+         */
+        public removeFirst(): E {
+            this.isEmpty()
+            let delNode: MySingleLinkListNode<E> = this.head.next;
+            let delVal: E = delNode.val;
+            let nextNode: MySingleLinkListNode<E> = delNode.next;
+            this.head.next = nextNode;
+            this.size--;
+            return delVal;
+
+        }
+        /**
+         * 删除尾部的节点
+         * @returns 删除的值
+         */
+        public removeLast(): E {
+            this.isEmpty()
+            //获取倒数第二个节点索引应该为 size - 2
+            let lastNode: MySingleLinkListNode<E> = this.getNode(this.size - 2);
+            let delNode: MySingleLinkListNode<E> = lastNode.next;
+            let delVal: E = delNode.val;
+            let nextNode: MySingleLinkListNode<E> = delNode.next;
+            lastNode.next = nextNode;
+            this.size--;
+            return delVal;
+        }
+        /**
+         * 删除指定位置的节点
+         * @param index 要删除的索引
+         * @returns 删除的值
+         */
+        public remove(index: number): E {
+            this.checkIsElementIndex(index);
+            let lastNode: MySingleLinkListNode<E> = this.getNode(index - 1);
+            let nextNode: MySingleLinkListNode<E> = lastNode.next.next;
+            let delNode: MySingleLinkListNode<E> = lastNode.next;
+            let delVal: E = delNode.val;
+            lastNode.next = nextNode;
+            this.size--;
+            return delVal;
+        }
+        /**
+         * 获取第一个节点的值
+         * @returns 第一个节点的值
+         */
+        public getFirst(): E {
+            this.isEmpty();
+            return this.head.next.val;
+        }
+        /**
+        * 获取最后一个节点的值
+        * @returns 最后一个节点的值
+        */
+        public getLast(): E {
+            this.isEmpty();
+            return this.getNode(this.size - 1).val;
+        }
+        /**
+         * 返回索引位置的节点的值
+         * @param index 索引
+         * @returns 对应的节点的值
+         */
+        public get(index: number): E {
+            this.checkIsElementIndex(index);
+            return this.getNode(index).val;
+        }
+        public set(index: number, val: E): E {
+            this.checkIsPositionIndex(index);
+            let node: MySingleLinkListNode<E> = this.getNode(index);
+            let oldValue: E = node.val;
+            node.val = val;
+            return oldValue;
+        }
+        /**
+         * 判断该位置是否存在元素
+         * @param index 
+         * @returns 
+         */
+        private isElementIndex(index: number): boolean {
+            return index >= 0 && index < this.size;
+        }
+        /**
+         * 判断该位置能否插入元素
+         * @param index 
+         * @returns 
+         */
+        private isPositionIndex(index: number): boolean {
+            return index >= 0 && index <= this.size;
+        }
+        /**
+         * 检查索引是否越界
+         * @param index 
+         */
+        private checkIsElementIndex(index: number): void {
+            if (!this.isElementIndex(index)) {
+                throw new Error(`${index} out of bounds ${this.size}`);
+            }
+        }
+        /**
+         * 检查插入索引是否越界
+         * @param index 
+         */
+        private checkIsPositionIndex(index: number): void {
+            if (!this.isPositionIndex(index)) {
+                throw new Error(`${index} out of bounds ${this.size}`);
+            }
+        }
+        /**
+         * 判断链表是否为空
+         * @returns 链表是否为空 true-空 false-不为空
+         */
+        public isEmpty(): void {
+            if (this.size === 0) { throw new Error('list is empty!'); }
+        }
+        /**
+         * 返回链表的长度
+         * @returns 链表的长度
+         */
+        public getSize(): number {
+            return this.size;
+        }
+        /**
+         * 返回指定位置的节点
+         * @param index 索引
+         * @returns 节点
+         */
+        private getNode(index: number): MySingleLinkListNode<E> {
+            let node: MySingleLinkListNode<E> = this.head.next;
+            for (let i = 0; i < index; i++) {
+                node = node.next;
+            }
+            return node;
+        }
+    }
+
+    let list: MySingleLinkList<number> = new MySingleLinkList<number>();
+    list.addFirst(1);
+    list.addFirst(0);
+    list.add(2, 2)
+    list.addLast(3)
+    list.remove(3)
+    list.removeFirst()
+    list.removeLast()
 
 }
+```
+
+### 实现Stack（栈）
+
+栈是尾部进入，尾部退出。
+
+可以直接利用链表或数组来实现。
+
+下面利用单链表实现
+
+```typescript
+import { MySingleLinkList } from './MySingleLinkList'
+class TrueStack<E>{
+        public stack: MySingleLinkList.MySingleLinkList<E>;
+        constructor() {
+            this.stack = new MySingleLinkList.MySingleLinkList<E>();
+        }
+    	//向栈顶加入一项
+        public push(val: E): void {
+            this.stack.addLast(val);
+        }
+   		//栈顶移除一项
+        public pop(): E {
+            return this.stack.removeLast();
+        }
+    	//取出栈顶的一项
+        public peek(): E {
+            return this.stack.getLast()
+        }
+    }
+
+```
+
+
+
+### 实现Queue（队列）
+
+队列是尾部推入，头部弹出。
+
+可以直接利用链表或数组来实现。
+
+下面利用单链表实现
+
+```typescript
+class Qqueue<E> {
+        private queue: MySingleLinkList.MySingleLinkList<E>;
+        constructor() {
+            this.queue = new MySingleLinkList.MySingleLinkList<E>();
+        }
+    	//取出队列第一项
+        public peek(): E {
+            return this.queue.getFirst();
+        }
+    	//弹出队列第一项
+        public dequeue(): E {
+            return this.queue.removeFirst();
+        }
+    	//在队列尾部加入一项
+        public enqueue(val: E): void {
+            this.queue.addLast(val);
+        }
+    }
 ```
 
