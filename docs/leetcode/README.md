@@ -1,5 +1,5 @@
 ---
-layout: post
+tlayout: post
 title: LeetCode 每日一题
 date: 2021-06-11
 tags:
@@ -317,63 +317,9 @@ var isValid = function (s) {
 }
 ```
 
-## [5. 合并两个有序链表（链表）](https://leetcode.cn/problems/merge-two-sorted-lists/)-
-
-将两个升序链表合并为一个新的 **升序** 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
-
-```
-输入：l1 = [1,2,4], l2 = [1,3,4]
-输出：[1,1,2,3,4,4]
-```
-
-```javascript
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} list1
- * @param {ListNode} list2
- * @return {ListNode}
- */
-var mergeTwoLists = function(list1, list2) {
-    //如果链表1为空则返回链表2，否则返回链表1
-    if(!list1)return list2
-    if(!list2)return list1
-    //声明1个空链表
-    let new_link = {
-        val:undefined,
-        next:null
-    }
-    //将空链表的指针指向第一个元素
-    let new_point = new_link
-    //声明p1 p1 为链表1，链表2的第一个元素
-    let p1 = list1
-    let p2 = list2
-    //当两个链表都没有到尾时，比较两个链表相同位置的元素的大小，将结果链表的next指向这个元素。
-    while(p1&&p2){
-        if(p1.val>p2.val){
-            new_point.next = p2
-            p2 = p2.next
-        }else {
-            new_point.next = p1
-            p1 = p1.next
-        }
-        new_point = new_point.next
-    }
-    //直到一个链表到尾部，则证明已将一个链表完全合并进结果链表，则另一个没有到结尾的链表直接接在结果链表的尾部。
-    new_point.next = p1?p1:p2
-    //返回新生成的链表。
-    return new_link.next
 
 
-};
-```
-
-## [6. 删除有序数组中的重复项(快指针,慢指针)](https://leetcode.cn/problems/remove-duplicates-from-sorted-array/)
+## [5. 删除有序数组中的重复项(快指针,慢指针)](https://leetcode.cn/problems/remove-duplicates-from-sorted-array/)
 
 给你一个 升序排列 的数组 nums ，请你 原地 删除重复出现的元素，使每个元素 只出现一次 ，返回删除后数组的新长度。元素的 相对顺序 应该保持 一致 。
 
@@ -411,7 +357,7 @@ var removeDuplicates = function(nums) {
 };
 ```
 
-## [7. 删除数组重复项(双指针,splice)](https://leetcode.cn/problems/remove-element/)
+## [6. 删除数组重复项(双指针,splice)](https://leetcode.cn/problems/remove-element/)
 
 
 
@@ -462,5 +408,129 @@ var removeElement = function(nums, val) {
     }
     return nums.length
 };
+```
+
+## [7. 分隔链表](https://leetcode.cn/problems/partition-list/)
+
+给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+
+你应当 保留 两个分区中每个节点的初始相对位置。
+
+```
+输入：head = [1,4,3,2,5,2], x = 3
+输出：[1,2,2,4,3,5]
+输入：head = [2,1], x = 2
+输出：[1,2]
+```
+
+**提示：**
+
+- 链表中节点的数目在范围 `[0, 200]` 内
+- `-100 <= Node.val <= 100`
+- `-200 <= x <= 200`
+
+
+
+### 解法:双指针配合虚拟头节点.
+
+```typescript
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     val: number
+ *     next: ListNode | null
+ *     constructor(val?: number, next?: ListNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.next = (next===undefined ? null : next)
+ *     }
+ * }
+ */
+
+function partition(head: ListNode | null, x: number): ListNode | null {
+    //声明两个虚拟头节点
+    let r1:ListNode = new ListNode(-1);
+    let r2:ListNode = new ListNode(-1);
+    //定义两个结果链表的指针
+    let p1:ListNode = r1;
+    let p2:ListNode = r2;
+    //从给定链表的头节点开始遍历
+    let h = head;
+    while(h!==null){
+        //如果给定链表当前节点值小于特定值,则把该节点接到r1中同时p1指针后移,反之接到r2中,p2指针后移
+        if(h.val < x){
+            p1.next = h;
+            p1 = p1.next;
+        }else {
+            p2.next = h;
+            p2 = p2.next;
+        }
+        //原链表进行断链.
+        let temp:ListNode = h.next;
+        h.next = null;
+        h = temp;
+    }
+    //对两个结果链表进行连接,p1代表结果链表1的尾,r2代表结果链表2的头.
+    p1.next = r2.next;
+    return r1.next;
+};
+```
+
+## [8. 合并两个有序链表](https://leetcode.cn/problems/merge-two-sorted-lists/)
+
+将两个升序链表合并为一个新的 **升序** 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 
+
+```
+输入：l1 = [1,2,4], l2 = [1,3,4]
+输出：[1,1,2,3,4,4]
+输入：l1 = [], l2 = []
+输出：[]
+输入：l1 = [], l2 = [0]
+输出：[0]
+```
+
+### 解法:虚拟头节点生成新链表
+
+```typescript
+    /**
+     * Definition for singly-linked list.
+     * class ListNode {
+     *     val: number
+     *     next: ListNode | null
+     *     constructor(val?: number, next?: ListNode | null) {
+     *         this.val = (val===undefined ? 0 : val)
+     *         this.next = (next===undefined ? null : next)
+     *     }
+     * }
+     */
+
+    function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode | null {
+        //声明结果链表的虚拟头节点
+        let result: ListNode = new ListNode(-1);
+        //声明结果链表的指针
+        let r1: ListNode = result;
+        //声明两个升序链表的指针
+        let p1: ListNode = list1;
+        let p2: ListNode = list2;
+        //如果两个指针均不为null,则对两个节点的值进行比较,将小的那个节点接到新链表上.
+        while (p1 && p2) {
+            if (p1.val <= p2.val) {
+                r1.next = p1;
+                p1 = p1.next;
+            } else {
+                r1.next = p2;
+                p2 = p2.next;
+            }
+            r1 = r1.next;
+        }
+        //当任一一指针为null,则表示有一个链表已经到头,则直接将另一个链表接到结果链表中.
+        if (p1 === null) {
+            r1.next = p2;
+        }
+        if (p2 === null) {
+            r1.next = p1;
+        }
+        //返回结果链表,不要返回虚拟的头节点.
+        return result.next;
+    };
 ```
 

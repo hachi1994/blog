@@ -1267,7 +1267,41 @@ let { proxy: otherProxy, revoke: otherRevoke } = Proxy.revocable(proxy, {
 console.log(otherProxy.age)//20被获取被获取
 ```
 
+### 函数
 
+#### 箭头函数
+
+箭头函数不能使用 arguments、super 和 new.target，也不能用作构造函数。此外，箭头函数也没有 prototype 属性。
+
+#### arguments
+
+arguments是一个类数组对象,保存着传入函数的参数,可以通过 arguments[0] arguments[1] .. 访问传入函数的第一个,第二个等参数.
+
+arguments可以和命名参数一起使用.
+
+```typescript
+function add<E>(v1: E, v2: E, v3: E, v4: E): E {
+    return arguments[0] + v1 + v2 + arguments[3];
+}
+console.log(add<number>(1, 2, 3, 4))//10
+```
+
+箭头函数没有arguments,但是可以通过包装使得箭头函数可以使用arguments
+
+```typescript
+function outAdd<E>(v1: E, v2: E, v3: E, v4: E): any {
+    return (): E => {
+        return arguments[0] + arguments[1] + v3 + v4;
+    }
+}
+console.log(outAdd<number>(1,2,3,4)())//10
+```
+
+#### 没有重载
+
+JavaScript中函数后定义的同名函数会覆盖先定义的同名函数,不能重载.
+
+可以通过判断传入函数的参数的类型,个数,来模拟重载.
 
 
 
