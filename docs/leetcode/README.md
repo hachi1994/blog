@@ -534,3 +534,47 @@ function partition(head: ListNode | null, x: number): ListNode | null {
     };
 ```
 
+## [9. 删除链表的倒数第 N 个结点(双指针)](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/)
+
+给你一个链表，删除链表的倒数第 `n` 个结点，并且返回链表的头结点。
+
+```
+输入：head = [1,2,3,4,5], n = 2
+输出：[1,2,3,5]
+```
+
+### 思路
+
+假设链表长为l 先让指针1走n步，再定义指针2，指针1，指针2同时走l - n 步，则此时指针2指向被删除的节点，指针1指向尾节点。
+
+### 解法
+
+```typescript
+
+function removeNthFromEnd(head: ListNode | null, n: number): ListNode | null {
+	//定义虚拟头节点
+    let vHead: ListNode = new ListNode(-1);
+    //原链表接在虚拟头节点上
+    vHead.next = head;
+    //获取要被删除的节点的前一个节点，所以要走n+1步
+    let temp: ListNode = findNode(vHead, n + 1);
+    //next指向被删节点下一个节点。
+    temp.next = temp.next.next;
+    return vHead.next;
+};
+function findNode(head: ListNode, index: number): ListNode {
+	//声明指针1,并走n步。
+    let h1: ListNode = head;
+    for (let i = 0; i < index; i++) {
+        h1 = h1.next;
+    }
+    //声明指针2，一起走 l - n 步。
+    let h2: ListNode = head;
+    while (h1 !== null) {
+        h1 = h1.next;
+        h2 = h2.next;
+    }
+    return h2;
+}
+```
+

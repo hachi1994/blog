@@ -809,9 +809,44 @@ static void Main(string[] args)
     }
 ```
 
+##### 数组参数
+
+数组参数只能用在参数列表最后，且类型必须一样。
+
+```c#
+void fo(int b,int c,params int[] a)
+        {
+            foreach (int i in a)
+            {
+                Console.WriteLine(i);
+            }
+        }
+        fo(1, 2, 4, 5, 6, 7, 8);//45678
+    }
+```
+
+##### 默认值参数
+
+参数默认值必须放在必须参数后面。
+
+```c#
+void fo(int c, int b = 20, params int[] a)
+        {
+            foreach (int i in a)
+            {
+                Console.WriteLine(i);
+            }
+        }
+        fo(20, 2, 4, 5, 6, 7);
+```
 
 
 
+####  变量的作用域
+
+​	局部变量使用前必须赋初值。
+
+<img src='./dataType.png'>
 
 `
 
