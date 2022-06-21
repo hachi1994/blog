@@ -1303,5 +1303,167 @@ JavaScript中函数后定义的同名函数会覆盖先定义的同名函数,不
 
 可以通过判断传入函数的参数的类型,个数,来模拟重载.
 
+#### 函数声明和函数表达式
+
+函数表达式在使用前必须要声明，而且没有提升过程，而函数声明有提升过程。
+
+#### 函数内部
+
+##### arguments.callee()
+
+可以通过`arguments.callee()`来调用函数本身，使得函数逻辑与函数名解耦
+
+##### this
+
+`this`在函数声明中指向全局作用域，一般在网页中指向window。通过对象来调用指向调用的那个对象。
+
+而在箭头函数中则指向所在执行上下文， 
+
+##### caller
+
+函数的`caller`属性指向调用该函数的那个函数
+
+##### new Target
+
+函数中的的该属性用于判断该函数是作为构造函数来调用。当作为构造函数调用时会引用被调用的构造函数，正常调用则返回undefined
+
+```javascript
+function F(){
+    console.log(new.target)
+}
+let f= new F();//[Function: F]
+
+F();//undefined
+```
 
 
+
+
+
+#### 函数的属性和方法
+
+##### length
+
+length属性返回函数命名参数的个数
+
+##### prototype
+
+该属性返回一个对象，保存了引用类型所有的实例方法，这些方法被所有实例共享。
+
+该对象的属性不能通过for in 来遍历。
+
+##### call apply
+
+通过call apply 可以以指定的this来调用函数，call传参为函数列表，apply接受一个参数数组。
+
+使用call apply 可以控制函数的调用上下文。
+
+```typescript
+let o = {
+    name:'lhc',
+    sayName(){
+        console.log(this.name);
+    }
+}
+let o_1 = {
+    name:'wade'
+}
+o.sayName()//lhc
+
+o.sayName.call(o_1)//wade
+```
+
+##### 函数表达式
+
+函数声明会进行提升，而函数表达式不会进行提升，当需要根据条件声明不同函数时，可以使用函数表达式,而不要使用函数声明。
+
+```
+let flag = true;
+let f:()=>number;
+if(flag){
+    f = function(){
+        return 1;
+    }
+}else {
+    f = function(){
+        return 2;
+    }
+}
+```
+
+##### 闭包
+
+闭包指的是那些引用了另一个函数作用域中变量的函数
+
+闭包内不能直接访问包裹函数的this和arguments，如果要访问需要想把this和arguments保存到一个闭包能访问的变量中。
+
+```typescript
+let number = 1;
+let o = {
+    number: 2,
+    sayNum() {
+        let that = this;
+        let args = arguments;
+        return function () {
+            console.log(that.number, args.length);
+        }
+    }
+}
+o.sayNum()()//2 0 
+```
+
+##### IIFE 立即执行函数
+
+ES6之前，因为没有块级作用域，IIFE执行完，其作用域就会被销毁，且IIFE中的变量在IIFE外是访问不到的。
+
+```typescript
+(function(){
+    let i  = 1;
+    console.log(i)//1
+})()
+console.log(i)//找不到名称“i”
+```
+
+ES6中可以通过块级作用域来替代。
+
+```typescript
+{
+    let i = 1;
+    console.log(i)
+}
+console.log(i)//找不到名称“i”
+```
+
+#### 闭包的模块模式
+
+闭包可以返回一个对象，其中包含了一些只能这个闭包访问的变量或方法。
+
+```typescript
+function fun(){
+    let name = 'lhc';
+    let age = 20;
+    return {
+        name:name,
+        age:age,
+        sayName(){
+            console.log(name);
+        }
+    }
+}
+let lhc = fun();
+```
+
+#### 小结
+
+- 函数表达式与函数声明是不一样的。函数声明要求写出函数名称，而函数表达式并不需要。没 有名称的函数表达式也被称为匿名函数。
+- ES6 新增了类似于函数表达式的箭头函数语法，但两者也有一些重要区别
+- JavaScript 中函数定义与调用时的参数极其灵活。arguments 对象，以及 ES6 新增的扩展操作符， 可以实现函数定义和调用的完全动态化。
+- 函数内部也暴露了很多对象和引用，涵盖了函数被谁调用、使用什么调用，以及调用时传入了 什么参数等信息。
+- 闭包的作用域链中包含自己的一个变量对象，然后是包含函数的变量对象，直到全局上下文的 变量对象。
+- 通常，函数作用域及其中的所有变量在函数执行完毕后都会被销毁
+- 闭包在被函数返回之后，其作用域会一直保存在内存中，直到闭包被销毁。
+- 函数可以在创建之后立即调用，执行其中代码之后却不留下对函数的引用
+- 立即调用的函数表达式如果不在包含作用域中将返回值赋给一个变量，则其包含的所有变量都 会被销毁。
+- 虽然 JavaScript 没有私有对象属性的概念，但可以使用闭包实现公共方法，访问位于包含作用域 中定义的变量。
+- 可以访问私有变量的公共方法叫作特权方法。
+- 特权方法可以使用构造函数或原型模式通过自定义类型中实现，也可以使用模块模式或模块增 强模式在单例对象上实现。
