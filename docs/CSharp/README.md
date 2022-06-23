@@ -854,3 +854,26 @@ void fo(int c, int b = 20, params int[] a)
 
 `int? num  = null;`
 
+
+
+
+
+### 字符串String
+
+字符串是引用类型，并且字符串有缓存池，之前被声明过字符串，后续如果再被引用给其他变量，会直接使用原有地址的值，不会开辟新内存。字符串可以通过索引来访问，但是只能访问不能赋值。
+
+下图s1 s2 的栈内存地址不一样，但是都是指向堆内存中同一个值。
+
+<img src='./string_1.png'>
+
+<img src='./string_2.png'>
+
+```c#
+string s = "abc";
+s[0] = 'z';//无法对属性或索引器“property”赋值 - 它是只读的
+char[] c = { 'a', 'b', 'c' };
+c[0] = 'z';
+string cs = new String(c);
+Console.WriteLine(cs);//zbc
+```
+
