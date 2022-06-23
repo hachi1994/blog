@@ -90,7 +90,99 @@
 
 - 函数声明也存在变量提升,会把该函数提升到当前作用域顶端.且return后面的语句中的变量和函数声明也可以提升.
 
+- +运算符与非数值运算,会将非数值转成数值在计算,null=>0 undefined => NaN 
 
+- 0/0,NaN/0结果为NaN,其他值/0均为Infinite.
+
+- `var a = b = 1`等同于`var a = b;b=1;`
+
+- `eval` 将会返回对最后一个表达式的求值结果。 
+
+- 对原型对象进行覆盖是将prototype指向了一个新的地址,原来创建的对象的原型不受影响
+
+  ```typescript
+  function F(){}
+  F.prototype.a = 1;
+  let a = new F();
+  F.prototype = {
+    b:2
+  }
+  console.log(a.a);//1
+  
+  ```
+
+- Symol
+
+  - Symbol值不能与其他类型的值进行运算
+  - Symbol 值不可以和其他类型值进行混合运算,否则会报错
+  - Symbol 值如果想要作为属性名，那就不能再用点运算符，因为点运算符后面跟的总是字符串
+  - 在对象内部使用Symbol 值作为属性名的时候，必须要将值放在方括号中
+
+- js传参包括基本数据类型传参和复杂数据类型传参，基本数据类型传参实际上是复制值传递，函数对形参的处理不会影响到外面的实参，而复杂数据类型传参是引用传递，即把数据的地址复制一份后传递到函数中，此时形参和实参指向同一地址的对象，对于形参的修改会影响到实参。
+
+  ```typescript
+  function fn(o,val){
+  
+             o.b = 1;
+  
+             val = 1;
+  
+  }
+  
+  var obj = {b:0};
+  
+  var num = 0;
+  
+  fn(obj,num);
+  
+  console.log(obj,num);//{b:1} 0
+  ```
+
+- js运算符优先级 算术运算符>关系运算符>逻辑运算符（先&&后||）> 赋值
+
+- 使用`let`声明的变量不会成为全局变量，不会成为window的属性。
+
+- js全局函数不包含setTimeout ，这是window对象的方法
+
+  - escape()、unescape()、encodeURI()、decodeURI()、
+
+      encodeURIComponent()、decodeURIComponent()
+
+     Number()、String()
+
+    isFinite()、isNaN()、parseFloat()、parseInt()
+
+      eval()
+
+- js原始数据类型 Undefined、Null、Boolean、Number 和 String。
+
+- **continue语句只能用在while语句、do/while语句、for语句、或者for/in语句的循环体内，在其它地方使用都会引起错误！**是停止当前语句，并从头执行该语句。
+
+- exec() 方法是一个正则表达式方法。
+
+  exec() 方法用于检索字符串中的正则表达式的匹配。
+
+  该函数返回一个数组，其中存放匹配的结果。如果未找到匹配，则返回值为 null
+
+- 
+
+## React
+
+- `React.lazy`用于动态引入组件
+
+- Redirect用于重定向,
+
+  访问inbox.message/3会跳转到/message/3
+
+  ```
+  <Route path="inbox" component={Inbox}>
+  
+  ＜Redirect from="messages/:id" to="/messages/:id" />
+  
+  </Route>
+  ```
+
+- d
 
 
 

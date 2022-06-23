@@ -9,110 +9,164 @@ categories:
 
 ### 手写代码
 
-1. 节流
-    ```javascript
-    function throttle(fn,wait){
-        let pre = 0
-        return function(){
-            let context = this
-            let now = Date.now()
-            let args = [...arguments]
-            debugger
-            if(now - pre >= wait){
-                fn.call(context,args)
-                pre = now
-            }
-        }
-    }
-    ```
-2. 防抖
-   ```
-   function debounce (fn, wait, immediate) {
-        let timer = null
-        return function () {
-            let args = [...arguments]
-            if (timer) clearTimeout(timer)
-            if (!timer && immediate) {
-                fn.call(this, args)
-            }
-            timer = setTimeout(() => {
-                fn.apply(this, arguments)
-            }, wait);
-        }
-    }
-   ```
-3. 数组扁平化
-   ```javascript
-    function flatten(arr: any[]): any[] {
-            return arr.reduce((result, currentvalue) => {
-                return result.concat(Array.isArray(currentvalue) ? flatten(currentvalue) : currentvalue)
-            }, [])
-        }
-        let arr = flatten([[1, 2, 3], [4, 5, [5.1, 5.2]], 6, 7])
-        console.log(arr)
-   ```
-4. 数组去重
-   ```javascript
-    let singleArr: any[] = [1, 2, 3, 3, 4, 2, 5]
-    let objArr: any[] = [{ name: 'lhc', age: 20 }, { name: 'abc', age: 23 }, { name: 'cde', age: 20 }]
-    let hasO:object = {}
-    let newArr = objArr.reduce((result,current)=>{
-        hasO[current.age]?'':hasO[current.age] = true && result.push(current)
-        return result
-    },[])
-    console.log([...new Set(singleArr)],newArr)
-   ```
-5. 深拷贝 浅拷贝
-   ```javascript
-   //浅拷贝
-    let o = { name: 1, age: 2 }
-    console.log(Object.assign({}, o) === o)
-    //深拷贝
-    function deep(obj: object) {
-        if (typeof obj !== 'object') return
-        let newO = Array.isArray(obj) ? [] : {}
-        for (const key in obj) {
-            if (Object.prototype.hasOwnProperty.call(obj, key)) {
-                const element = obj[key];
-                newO[key] =  typeof element === 'object' ? deep(element) : element
-   
-            }
-        }
-        return newO
-    }
-   ```
+#### 节流
 
-   6. 怎么取消Promise 
-   ```javascript
-        class CancelToken {
-        constructor(cancelFn) {
-            this.promise = new Promise((resolve, reject) => {
-                cancelFn(() => {
-                    setTimeout(console.log, 0, "delay cancelled");
-                    resolve();
-                });
-            });
+```javascript
+function throttle(fn,wait){
+    let pre = 0
+    return function(){
+        let context = this
+        let now = Date.now()
+        let args = [...arguments]
+        debugger
+        if(now - pre >= wait){
+            fn.call(context,args)
+            pre = now
         }
     }
-    const startButton = document.querySelector('#start');
-    const cancelButton = document.querySelector('#cancel');
-   
-    function cancellableDelayedResolve(delay) {
-        setTimeout(console.log, 0, "set delay");
-        return new Promise((resolve, reject) => {
-            //resolve 部分
-            const id = setTimeout((() => {
-                setTimeout(console.log, 0, "delayed resolve");
-                resolve();
-            }), delay);
-            
-            const cancelToken = new CancelToken((cancelCallback) =>
-                cancelButton.addEventListener("click", cancelCallback));
-            cancelToken.promise.then(() => clearTimeout(id));
-        });
+}
+```
+
+#### 防抖
+
+```
+function debounce (fn, wait, immediate) {
+     let timer = null
+     return function () {
+         let args = [...arguments]
+         if (timer) clearTimeout(timer)
+         if (!timer && immediate) {
+             fn.call(this, args)
+         }
+         timer = setTimeout(() => {
+             fn.apply(this, arguments)
+         }, wait);
+     }
+ }
+```
+
+#### 数组扁平化
+
+```javascript
+ function flatten(arr: any[]): any[] {
+         return arr.reduce((result, currentvalue) => {
+             return result.concat(Array.isArray(currentvalue) ? flatten(currentvalue) : currentvalue)
+         }, [])
+     }
+     let arr = flatten([[1, 2, 3], [4, 5, [5.1, 5.2]], 6, 7])
+     console.log(arr)
+```
+
+#### 数组去重
+
+```javascript
+ let singleArr: any[] = [1, 2, 3, 3, 4, 2, 5]
+ let objArr: any[] = [{ name: 'lhc', age: 20 }, { name: 'abc', age: 23 }, { name: 'cde', age: 20 }]
+ let hasO:object = {}
+ let newArr = objArr.reduce((result,current)=>{
+     hasO[current.age]?'':hasO[current.age] = true && result.push(current)
+     return result
+ },[])
+ console.log([...new Set(singleArr)],newArr)
+```
+
+#### 深拷贝 浅拷贝
+
+```javascript
+//浅拷贝
+ let o = { name: 1, age: 2 }
+ console.log(Object.assign({}, o) === o)
+ //深拷贝
+ function deep(obj: object) {
+     if (typeof obj !== 'object') return
+     let newO = Array.isArray(obj) ? [] : {}
+     for (const key in obj) {
+         if (Object.prototype.hasOwnProperty.call(obj, key)) {
+             const element = obj[key];
+             newO[key] =  typeof element === 'object' ? deep(element) : element
+
+         }
+     }
+     return newO
+ }
+```
+
+#### 手写bind
+
+```javascript
+Function.prototype._bind = function (context, ...args1) {
+  let _this = this;
+  return function (...args2) {
+    _this.call(context, ...args1, ...args2)
+  }
+}
+```
+
+#### 数组去重
+
+考虑减少匹配次数
+
+```javascript
+const _deleteRepeat = array => {
+  // 补全代码
+  let arr = []
+  let length = array.length % 2 == 0 ? array.length / 2 : (array.length + 1) / 2;
+  for (let i = 0; i < length; i++) {
+    if (typeof array[i] === 'number') {
+      if (!arr.includes(array[i])) {
+        arr.push(array[i])
+      }
     }
-    startButton.addEventListener("click", () => cancellableDelayedResolve(1000));
-   ```
+    if (typeof array[array.length - i] === 'number') {
+      if (!arr.includes(array[array.length - i])) {
+        arr.push(array[array.length - i]);
+      }
+    }
+  }
+  return arr;
+}
+```
+
+```javascript
+const _deleteRepeat = array => {
+  return [...new Set(array)]
+}
+```
+
+
+
+#### 怎么取消Promise 
+
+```javascript
+     class CancelToken {
+     constructor(cancelFn) {
+         this.promise = new Promise((resolve, reject) => {
+             cancelFn(() => {
+                 setTimeout(console.log, 0, "delay cancelled");
+                 resolve();
+             });
+         });
+     }
+ }
+ const startButton = document.querySelector('#start');
+ const cancelButton = document.querySelector('#cancel');
+
+ function cancellableDelayedResolve(delay) {
+     setTimeout(console.log, 0, "set delay");
+     return new Promise((resolve, reject) => {
+         //resolve 部分
+         const id = setTimeout((() => {
+             setTimeout(console.log, 0, "delayed resolve");
+             resolve();
+         }), delay);
+         
+         const cancelToken = new CancelToken((cancelCallback) =>
+             cancelButton.addEventListener("click", cancelCallback));
+         cancelToken.promise.then(() => clearTimeout(id));
+     });
+ }
+ startButton.addEventListener("click", () => cancellableDelayedResolve(1000));
+```
 
 ### typeScript版本
 
