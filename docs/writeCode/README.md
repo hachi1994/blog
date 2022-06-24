@@ -9,6 +9,74 @@ categories:
 
 ### 手写代码
 
+#### 六种继承
+
+```javascript
+// 基于原型链继承
+function SuperType(name){
+
+}
+function SubType(){
+
+}
+SubType.prototype = new SuperType();
+
+//借用构造函数继承
+function SuperType(name){
+  this.name = name;
+}
+function SubType(name,age){
+  SuperType.call(this,name);
+  this.age = age;
+}
+//组合式继承
+function SuperType(name){
+  this.name = name;
+}
+function SubType(name,age){
+  SuperType.call(this,name);
+  this.age = age;
+}
+SubType.prototype = new SuperType();
+
+//原型式继承
+function object(obj) {
+  function F() { }
+  F.prototype = obj;
+  return new F();
+}
+//寄生式继承
+function inherit(pbj) {
+  let clone = object(obj);
+  clone.prototype.sayName = function () {
+    console.log(this.name);
+  }
+  return clone;
+}
+//寄生式组合继承
+function SuperType(n) {
+  this.n = n;
+}
+function SubType(n, a) {
+  SuperType.call(this, n);
+  this.a = a;
+}
+function inherit(subType, superType) {
+  let prototype = object(superType.prototype);
+  prototype.constructor = subType;
+  subType.prototype = prototype;
+}
+SuperType.prototype.sayName = function () {
+  console.log(this.n);
+}
+inherit(SubType, SuperType);
+SubType.prototype.sayAge = function () {
+  console.log(this.a);
+}
+```
+
+
+
 #### 节流
 
 ```javascript
@@ -100,6 +168,11 @@ Function.prototype._bind = function (context, ...args1) {
     _this.call(context, ...args1, ...args2)
   }
 }
+let o = {name:1};
+function foc(){
+  console.log(this.name);
+}
+foc._bind(o)();
 ```
 
 #### 数组去重
@@ -132,6 +205,48 @@ const _deleteRepeat = array => {
   return [...new Set(array)]
 }
 ```
+
+#### 使定时器不需要回调
+
+```typescript
+let delay = (fn,wait)=> {
+  new Promise(r=>{
+    setTimeout(r=>{
+      f();
+    },wait)
+  })
+}
+delay(()=>{
+  console.log(1)
+},2000);
+```
+
+#### 判断是否是数组的几种方法
+
+```javascript
+let arr = [];
+Array.isArray();
+arr instanceof Array;
+arr.__proto__.constructor === Array;
+Object.prototype.toString.call(arr).slice(8,-1)==='Array'
+```
+
+#### reduce实现map
+
+```javascript
+Array.prototype._map = function (fn, context) {
+  let result = [];
+  this.reduce((p, c, i, arr) => {
+    result[i] = fn.call(context, arr[i], i, arr)
+  }, 0)
+  return result;
+}
+
+let arr = [1,2,3];
+console.log(arr._map((x)=>x*2 ))//[2,4,6]
+```
+
+
 
 
 

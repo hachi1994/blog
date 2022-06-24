@@ -1,6 +1,6 @@
  - \---
 
-   title: 记录刷题中的错题的知识点
+   title: 记录刷题中的错题的知识点，以及面试题
 
    date: 2022-06-22
 
@@ -176,6 +176,50 @@
   - . 匹配除了/n /r 外任何字符
   - "*" 匹配0或多次
   - \d 数字 \D 非数字 \w 字符下划线 \W 非字符
+  - 正则表达式内的^表示非,在头用于匹配开头. `/[^abc]/`表示匹配非abc
+  
+  
+  
+- 三元运算符将值转成boolean再比较， == === 将值转成number类型再比较
+
+  - Boolean([]) =>  true 
+  - Number([]) => 0
+  - Boolean({}) => true
+  - Number({}) => NaN
+  - Number(false) => 0
+
+- Promise的then可以用于前面的请求成功或失败的情况，前面抛出错误才会进入catch。
+
+- `in` 操作符用在数组中，表示判断 对应的索引在不在数组中，而不是判断值在不在数组中。
+
+  - `1 in [i]//false index i not exist `
+
+- `<NOSCRIPT>`标签用来定义脚本未被执行时的替代内容。
+
+- 数据量大的情况下连接字符串的最好方式是 `Array.join()`  因为不需要创建新变量。
+
+- call aplly 传入的上下文是null在非严格情况下是全局。
+
+- 时间循环 同步代码=>异步代码(微任务代码=>宏任务代码)
+
+- js内置对象 Arguments Math Date Object Array Boolean  Error Function  String RegExp 
+
+- 阻止冒泡`ie e.cancelBubble = true 其他 e.stopPropagation()`
+
+- 阻止默认行为`ie e.returnValue = false 其他e.preventDefault()`
+
+- 原生获取dom父节点 `element.parentNode`
+
+- 定义在原型对象上的方法属性 in操作符返回true hasOwnProperty返回false
+
+  - ```javascript
+    let ooc = new Object();
+    Object.prototype.ahh = 'a';
+    console.log(Object.hasOwnProperty.call(ooc,'ahh'));//false
+    console.log('ahh' in ooc);//true
+    ```
+
+- 
 
 
 ## React
@@ -195,6 +239,36 @@
   ```
 
 - d
+
+
+
+## 浏览器及网络协议
+
+### 1.浏览器加载资源的过程
+
+1. 上一次加载资源成功,返回状态码200时,将资源和请求头均缓存下来用于下次加载资源时比较.
+2. 再次加载资源时,强缓存优先级最高,所以先判断当前时间与上次请求成功时的时间进行对比,如果没有超过cache-control头设置的max-age,则资源未过期,那么直接使用本地缓存的资源,对于不支持http1.1协议的浏览器则使用expries头来判断是否过期.
+3. 若判断资源已过期,则强缓存没有命中,开始进行协商缓存,向服务器发送带有If-None-Math和If-Modified-Since头的请求.
+4. 服务器收到请求后优先根据ETag判断请求的文件是否被修改,如果ETag一致那么则没有被修改,协商缓存命中,直接返回数据,返回状态码304.如果ETag不一致,那么则表示请求的文件被修改了,则由服务器返回最新的资源,并带上ETag,返回状态码200.
+5. 如果请求中不带ETAG,那么则用If-Modified-Since和文件最后修改时间比较,一致则命中协商缓存,直接返回数据和状态码304,否则返回最新文件和最新If-Modified-Since并返回状态码200
+
+
+
+### 2.浏览器的强缓存和协商缓存
+
+使用强缓存策略时,如果资源缓存有效,则直接使用该资源,不用向服务器发送请求.
+
+强缓存依赖Expries头和Cache-Control头,支持http1.1协议的浏览器可以使用Cache-Control,不支持可以依赖Expries判断.
+
+如果强缓存没有命中,并且设置了协商缓存,那么则使用协商缓存,协商缓存适用前提,Cache-Control:max-age=过期,Cache-Control:no-store,
+
+使用协商缓存时会先向服务器发送一个请求,如果协商缓存命中,那么返回状态码304和本地缓存的资源副本.如果资源发生了修改,则返回最新资源和状态码200,并记录最后修改时间.
+
+### 3.强缓存，协商缓存
+
+### 4.三次握手
+
+### 5.四次挥手
 
 
 
