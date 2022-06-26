@@ -80,16 +80,12 @@ SubType.prototype.sayAge = function () {
 #### 节流
 
 ```javascript
-function throttle(fn,wait){
-    let pre = 0
+function throttle(f,w,...args){
+    let p = 0;
     return function(){
-        let context = this
-        let now = Date.now()
-        let args = [...arguments]
-        debugger
-        if(now - pre >= wait){
-            fn.call(context,args)
-            pre = now
+        let n = Date.now();
+        if(n - p >= w){
+            f.call(this,...args);
         }
     }
 }
@@ -97,20 +93,22 @@ function throttle(fn,wait){
 
 #### 防抖
 
-```
-function debounce (fn, wait, immediate) {
-     let timer = null
-     return function () {
-         let args = [...arguments]
-         if (timer) clearTimeout(timer)
-         if (!timer && immediate) {
-             fn.call(this, args)
-         }
-         timer = setTimeout(() => {
-             fn.apply(this, arguments)
-         }, wait);
-     }
- }
+```javascript
+function debounce(f, w, i, ...args) {
+    let t = null;
+    return function () {
+        if (t) clearTimeout(t);
+        if (!t && i) {
+            f.call(this, ...args);
+        }
+        t = setTimeout(() => {
+            f.apply(this, args)
+        }, w)
+    }
+}
+
+let q = debounce(function(x){console.log(x)},2000,false,'1');
+q();
 ```
 
 #### 数组扁平化

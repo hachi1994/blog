@@ -219,7 +219,17 @@
     console.log('ahh' in ooc);//true
     ```
 
-- 
+- 值与字符串相加是会进行拼接，字符串和字符串比较会比较ASCll的大小
+
+- `({} + 'b' > {} + 'a') => '[object Object] + b > [object + Object]+a => true'`
+
+- 按照CommonJS规范，在任何模块代码的作用域下内置了module exports require global 四个变量
+
+- 如果不给cookie设置时间，cookie会在浏览器会话结束时过期。
+
+- string的concat方法用于连接2个字符串。
+
+- `使用Object.create({})`创建的空对象是没有原型对象的。
 
 
 ## React
@@ -281,6 +291,6 @@
    1. no-store 不缓存
    2. no-cache 会先去服务器确认文件是否修改
    3. max-age 缓存在xxx秒后失效.
-3. If-No-Match: 可以携带一些值,如果服务器资源的ETag不与这些值匹配,则会返回请求的资源
+3. If-None-Match: 可以携带一些值,如果服务器资源的ETag不与这些值匹配,则会返回请求的资源
 4. If-Modified-Since:服务器只在所请求的资源在给定的日期时间之后对内容进行过修改的情况下才会将资源返回
 

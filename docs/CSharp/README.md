@@ -877,3 +877,12 @@ string cs = new String(c);
 Console.WriteLine(cs);//zbc
 ```
 
+#### 遍历字符串
+
+```
+string  s = "asd";
+foreach(var item in s){
+	Console.WriteLine(item);
+}
+```
+
