@@ -231,6 +231,30 @@
 
 - `使用Object.create({})`创建的空对象是没有原型对象的。
 
+- 数组遍历
+
+  - orEach(), filter(), reduce(), every() 和some()都会跳过空位。
+
+    map()会跳过空位，但会保留这个值
+
+    join()和toString()会将空位视为undefined，而undefined和null会被处理成空字符串。
+
+  - ES6 中都会将空位当做undefined
+
+- 全局变量不会回收，被另一个作用域引用的变量不会回收，局部变量会被回收。
+
+- Date `setMounth()`设置1-12月传入0-11
+
+- 不能被冒泡的9个事件：① load和unload ② mouseenter和mouseleave ③ blur和focus ④ error ⑤ resize和abort从3个角度说可分为ui事件、鼠标移入移出事件、聚焦和失焦件，
+
+- 字符串的match() 方法检索返回一个字符串匹配正则表达式的结果，匹配成功则返回数组，失败则返回null。
+
+- .length 一个函数返回他的形参个数。1
+
+- 函数的形参不能被删除
+
+- 数组的forEach方法会跳过undefined的元素
+
 
 ## React
 
@@ -248,7 +272,7 @@
   </Route>
   ```
 
-- d
+- 自定义组件必须义大写字母开头：为的是和HTML内置组件进行区分
 
 
 
