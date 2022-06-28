@@ -212,7 +212,7 @@ const _deleteRepeat = array => {
 let delay = (fn,wait)=> {
   new Promise(r=>{
     setTimeout(r=>{
-      f();
+      fn();
     },wait)
   })
 }

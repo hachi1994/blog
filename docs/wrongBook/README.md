@@ -219,6 +219,23 @@
     console.log('ahh' in ooc);//true
     ```
 
+- with(obj){代码} with 代码块首先会以obj为this,如果obj没有找到属性,那么就回去其上级作用域中找.
+
+  - 以下操作等于往全局中添加了一个color属性.
+
+  - ```
+    function change(obj) {
+      with(obj) {
+        color = 'red'
+      }
+    }
+    var box = {
+      size: '15*15'
+    }
+    change(box);
+    console.log(color);
+    ```
+
 - 
 
 
