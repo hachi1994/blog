@@ -237,6 +237,7 @@
     ```
 
 - 
+
 - 值与字符串相加是会进行拼接，字符串和字符串比较会比较ASCll的大小
 
 - `({} + 'b' > {} + 'a') => '[object Object] + b > [object + Object]+a => true'`
@@ -272,6 +273,8 @@
 - 函数的形参不能被删除
 
 - 数组的forEach方法会跳过undefined的元素
+
+- setTimeout 定时器中this默认指向window
 
 
 ## React
