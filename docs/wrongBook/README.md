@@ -156,6 +156,8 @@
 
 - js原始数据类型 Undefined、Null、Boolean、Number 和 String。
 
+- js中数值类型不区分int float double 统一用8字节64位来表示数字.
+
 - **continue语句只能用在while语句、do/while语句、for语句、或者for/in语句的循环体内，在其它地方使用都会引起错误！**是停止当前语句，并从头执行该语句。
 
 - exec() 方法是一个正则表达式方法。
@@ -219,6 +221,25 @@
     console.log('ahh' in ooc);//true
     ```
 
+- with(obj){代码} with 代码块首先会以obj为this,如果obj没有找到属性,那么就回去其上级作用域中找.
+
+  - 以下操作等于往全局中添加了一个color属性.
+
+  - ```
+    function change(obj) {
+      with(obj) {
+        color = 'red'
+      }
+    }
+    var box = {
+      size: '15*15'
+    }
+    change(box);
+    console.log(color);
+    ```
+
+- 
+
 - 值与字符串相加是会进行拼接，字符串和字符串比较会比较ASCll的大小
 
 - `({} + 'b' > {} + 'a') => '[object Object] + b > [object + Object]+a => true'`
@@ -254,6 +275,21 @@
 - 函数的形参不能被删除
 
 - 数组的forEach方法会跳过undefined的元素
+
+- setTimeout 定时器中this默认指向window
+
+- 变量重复声明不赋值的话会保持原值
+
+  - ```javascript
+    var a;
+    a();
+    function a() {
+      console.log(a);
+    }
+    //输出a函数的内容,因为a声明但未赋值,所以a还是函数u.
+    ```
+
+- 
 
 
 ## React
