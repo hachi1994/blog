@@ -1467,3 +1467,66 @@ let lhc = fun();
 - 虽然 JavaScript 没有私有对象属性的概念，但可以使用闭包实现公共方法，访问位于包含作用域 中定义的变量。
 - 可以访问私有变量的公共方法叫作特权方法。
 - 特权方法可以使用构造函数或原型模式通过自定义类型中实现，也可以使用模块模式或模块增 强模式在单例对象上实现。
+
+### Promise和异步函数
+
+#### Promise.resolve()和Promise.reject()
+
+`Promise.resolve()`等价于`new Promise(resolve=>resolve())`
+
+且`Promise.resolve()`可以包装任意一个值，如果传入的值本事就是一个期约，那它的行为就类似于一个空包装。
+
+```typescript
+let r = Promise.resolve(1);
+console.log(r===Promise.resolve(r))//true
+```
+
+
+
+Promise.reject()会实例化一个拒绝的期约并抛出一个异步错误 （这个错误不能通过 try/catch 捕获，而只能通过拒绝处理程序捕获）
+
+关键在于，Promise.reject()并没有照搬 Promise.resolve()的幂等逻辑。如果给它传一个期 约对象，则这个期约会成为它返回的拒绝期约的理由
+
+```typescript
+let rej = Promise.reject(1);
+Promise.reject(rej).catch(r=>console.log(r))//Promise { <rejected> 1 }
+```
+
+#### Promise的实例方法
+
+##### Promise.prototype.then()
+
+Promise.prototype.then()是为期约实例添加处理程序的主要方法。这个 then()方法接收最多 两个参数：onResolved 处理程序和 onRejected 处理程序。这两个参数都是可选的，如果提供的话， 则会在期约分别进入“兑现”和“拒绝”状态时执行。
+
+如前所述，两个处理程序参数都是可选的。而且，传给 then()的任何非函数类型的参数都会被静 默忽略。如果想只提供 onRejected 参数，那就要在 onResolved 参数的位置上传入 undefined。
+
+```typescript
+let p:any = new Promise((resolve,reject)=>{
+    reject(1);
+})
+p.then(null,(r:any)=>console.log(r))//1
+
+```
+
+抛出异常会返回拒绝的期约
+
+```typescript
+let p:any = new Promise(()=>{
+    throw new Error("error")
+})
+p.then(null,(r:any)=>console.log(r))//Error: error
+```
+
+##### Promise.prototype.catch()
+
+Promise.prototype.catch()方法用于给期约添加拒绝处理程序.这个方法是一个语法糖相当于`Promise.prototype.then(null, onRejected)`
+
+这个方法只接收一个参数： onRejected 处理程序
+
+```typescript
+let p:any = new Promise(()=>{
+    throw new Error("error")
+})
+p.catch((r:any)=>console.log(r))//Error: error
+```
+
