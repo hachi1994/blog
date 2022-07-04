@@ -464,7 +464,7 @@ function partition(head: ListNode | null, x: number): ListNode | null {
             p2.next = h;
             p2 = p2.next;
         }
-        //原链表进行断链.
+        //原链表进行0断链.
         let temp:ListNode = h.next;
         h.next = null;
         h = temp;
