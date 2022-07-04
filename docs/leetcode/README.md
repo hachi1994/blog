@@ -578,3 +578,77 @@ function findNode(head: ListNode, index: number): ListNode {
 }
 ```
 
+## 10. 区域和检索 - 数组不可变(数组，构造前缀)](https://leetcode.cn/problems/range-sum-query-immutable/)
+
+给定一个整数数组  nums，处理以下类型的多个查询:
+
+计算索引 left 和 right （包含 left 和 right）之间的 nums 元素的 和 ，其中 left <= right
+实现 NumArray 类：
+
+NumArray(int[] nums) 使用数组 nums 初始化对象
+int sumRange(int i, int j) 返回数组 nums 中索引 left 和 right 之间的元素的 总和 ，包含 left 和 right 两点（也就是 nums[left] + nums[left + 1] + ... + nums[right] )
+
+```
+输入：
+["NumArray", "sumRange", "sumRange", "sumRange"]
+[[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]
+输出：
+[null, 1, -1, -3]
+
+解释：
+NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
+numArray.sumRange(0, 2); // return 1 ((-2) + 0 + 3)
+numArray.sumRange(2, 5); // return -1 (3 + (-5) + 2 + (-1)) 
+numArray.sumRange(0, 5); // return -3 ((-2) + 0 + 3 + (-5) + 2 + (-1))
+
+```
+
+### 解法1：前缀法，速度快
+
+初始化时，队给定数组构造一个前缀数组，用于存储从0索引到当前索引的累加值，获取某区间元素之和时，直接用结束索引+1 - 开始索引即可求出值。
+
+```typescript
+class NumArray {
+    //前缀数组，用于存储累加值。
+    private perNums:number[];
+    constructor(nums: number[]) {
+        //设置该前缀数组长度为参数数组+1，因为要存储索引为0时的累计值。
+        this.perNums = new Array(nums.length+1);
+        //ts中默认为undefined，所以用0填充。
+        this.perNums.fill(0);
+        //因为前缀数组长度比参数数组多1，所以索引从1开始
+        for(let i =1;i<nums.length+1;i++){
+            this.perNums[i] = this.perNums[i-1] + nums[i-1];
+        }
+    }
+    //获取结果为左界限到右界限+1的差。
+    sumRange(left: number, right: number): number {
+        return this.perNums[right+1] - this.perNums[left];
+    }
+}
+```
+
+### 解法二：遍历法，空间占用少
+
+```typescript
+class NumArray {
+    private nums:number[];
+    constructor(nums: number[]) {
+        this.nums = nums;
+    }
+    sumRange(left: number, right: number): number {
+        let sum:number = 0;
+        for(let i = left;i<=right;i++){
+            sum+=this.nums[i];
+        }
+        return sum;
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * var obj = new NumArray(nums)
+ * var param_1 = obj.sumRange(left,right)
+ */
+```
+

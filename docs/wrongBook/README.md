@@ -184,7 +184,6 @@
   
   
   
-  
 - 三元运算符将值转成boolean再比较， == === 将值转成number类型再比较
 
   - Boolean([]) =>  true 
@@ -298,6 +297,62 @@
   - 变量不能重名
 
 
+
+
+
+## Css
+
+- 一级标题到六级标题表示 HTML 标题，默认加粗
+
+  <caption> 标签表示表格标题，标题一般被居中表格之上，但不加粗文本
+
+  <em> 标签表示强调内容，显示为斜体，但不加粗文本
+
+  <th> 标签表示表格的表头，默认加粗文本
+
+- perspective(n) 改变3D元素是怎样查看透视图
+
+- 1）link是XHTML标签，无兼容问题；@import是在CSS2.1提出的，低版本的浏览器不支持。
+
+  2）link可以加载CSS，Javascript；@import只能加载CSS。
+
+  3）link加载的内容是与页面同时加载；@import需要页面网页完全载入以后加载。
+
+- <img src="https://uploadfiles.nowcoder.com/images/20160725/6150436_1469437565689_9AB217826D523CFA52B15130EFC68A40" alt="img" style="zoom: 50%;" />
+
+- <img src="https://uploadfiles.nowcoder.com/images/20160725/6150436_1469437584131_4CF2CABF79BAAD901F68C39E7397B719" alt="img" style="zoom: 50%;" />
+
+- 标准盒子模型 ＝ margin + border + padding + width （width = content ）
+
+  IE盒子模型 ＝ margin + width（width = border + padding + content ）
+
+- 可以继承自父元素的样式
+
+  - 颜色，文字，字体间距行高对齐方式，和列表的样式可以继承
+
+  
+
+- 可以在 audio 开始标签和结束标签之间放置文本内容，这样老的浏览器就可以显示出不支持该标签的信息。
+
+- clear 指明该元素周围不可出现浮动元素。
+
+- 字体资源文件引入会受跨域限制。
+
+- 外部资源由 <object> 元素表示，该元素可以被视为图像、嵌套的浏览上下文或插件要处理的资源。它包括各种属性，如存档、边框、分类、代码库、代码类型等
+
+- a :link、a:hover、a:visited、a:active定义的顺序为link、visited、hover、active。
+
+- a标签不能嵌套a标签。
+
+-  **:before** 是CSS3之前的**旧的伪类**
+
+- 行内元素位于浮动元素之前时文本会识别出浮动元素并且围绕浮动元素排布，最早的文字环绕图片就是依赖这个特性。
+
+- <img src="https://uploadfiles.nowcoder.com/images/20210909/236456543_1631168420702/C084B24F5F2338D37CFB521ADBBB9826" alt="img" style="zoom: 50%;" />
+
+- 选择器优先级
+
+  - !important >style>id>class=伪类=属性>标签>通配符>浏览器自定样式
 
 ## React
 
