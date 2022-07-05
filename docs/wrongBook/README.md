@@ -36,7 +36,7 @@
 
 - try catch finally , try 里的语句必然会执行,catch则是捕获到try语句中的错误才执行,finally必然会在try catch后执行.
 
-- `arr.indexOf()`方法不能判断NaN,如果传入NaN则返回-1.
+- `arr.indexOf()`方法不能判断NaN,如果传入NaN则返回-1. `arr.include()`可以判断NaN
 
 - 函数声明的arguments参数是一个伪数组不是真正的数组,
 
@@ -170,15 +170,34 @@
 
 - 正则?
 
+  - \1 用于匹配第一个捕获组
+  
+  - i 表示忽略大小写
+  
   - ? 0或1次
+  
   - [] 匹配括号中的字符集合，匹配其中任一字符
+  
   - +匹配 1或多次
+  
   - . 匹配除了/n /r 外任何字符
+  
   - "*" 匹配0或多次
+  
   - \d 数字 \D 非数字 \w 字符下划线 \W 非字符
+  
   - 正则表达式内的^表示非,在头用于匹配开头. `/[^abc]/`表示匹配非abc
+  
   - ?=xxx 匹配某个字符且该字符后必须跟着xxx
     - abc(?=cde)则可以匹配abccdeabceaf中的第一个abc,因为第一个abc后跟了cde
+  
+  - {n} : 出现n次
+  
+    {n,} : 出现n到多次
+  
+    {n,m} : 出现n到m次
+  
+  - 
   
   
   
@@ -293,6 +312,24 @@
 
   - 匿名函数和立即执行函数的this指向undefined不指向window.
   - 变量不能重名
+
+- 判断对象j是否存在可以使用 `this.hasOwnProperty('obj')`来判断对象是否是顶层对象的一个属性。
+
+- 设置configurable:flase 的属性不能被删改，也不能被再次修改特性，但是可以重写。
+
+- void是一元运算符，它出现在操作数之前，操作数可以是任意类型，操作数会照常计算，但忽略计算结果并返回undefined。由于void会忽略操作数的值，因此在操作数具有副作用的时候使用void来让程序更具语义
+
+  - `void 1 //undefined;`
+  - `void()//SyntaxError`
+
+- `isNaN()`传入 NaN 或字符串、对象、undefined等非数字值会返回true
+
+- AMD,CMD相关
+
+  - RequireJS遵循AMD规范， Sea.js遵循CMD规范
+  - AMD推崇依赖前置，CMD推崇依赖就近
+
+
 
 
 
