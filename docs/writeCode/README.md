@@ -209,7 +209,7 @@ const _deleteRepeat = array => {
 ```typescript
 let delay = (fn,wait)=> {
   new Promise(r=>{
-    setTimeout(r=>{
+    setTimeout(()=>{
       fn();
     },wait)
   })

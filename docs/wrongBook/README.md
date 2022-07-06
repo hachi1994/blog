@@ -18,7 +18,7 @@
 
 - ###### `typeof`只能检测数据类型，而不能检测从数据类型中派生的其他类型，数组为object派生对象，所以依然返回object
 
-- 三元运算符有限级高于赋值运算符
+- 三元运算符优先级高于赋值运算符
 
 - `Object(1.0)`可以将1.0包装成一个Number对象的实例.
 
@@ -35,6 +35,26 @@
 - `+`作为一元运算符时，会将参数转换为数字返回
 
 - try catch finally , try 里的语句必然会执行,catch则是捕获到try语句中的错误才执行,finally必然会在try catch后执行.
+
+  - finally中有return则try里的return不生效。
+
+    ```javascript
+    var i = 100;
+    function foo() {     //bbb 是 try... finally...这个代码块
+        bbb: try {        //break语句的标签引用，用于跳出 bbb标签 代码块
+            console.log("position1");//打印position1
+            return i++;  } //继续执行return右边的代码，此时i++为100，i为101
+        finally {                //只要有finally，不管try语句里写啥（return,break之类的失效），都会执行finally语句
+            break bbb;     //跳出bbb标签代码块
+        }                   //跳出try...finally后，因为finally中没有return，故可执行后续代码
+                               //如果finally中有return，则无法执行后续代码了
+        console.log("position2");//打印position2
+        return i;//返回i,i=101
+    }
+    foo();
+    ```
+
+    
 
 - `arr.indexOf()`方法不能判断NaN,如果传入NaN则返回-1. `arr.include()`可以判断NaN
 
@@ -171,36 +191,36 @@
 - 正则?
 
   - \1 用于匹配第一个捕获组
-  
+
   - i 表示忽略大小写
-  
+
   - ? 0或1次
-  
+
   - [] 匹配括号中的字符集合，匹配其中任一字符
-  
+
   - +匹配 1或多次
-  
+
   - . 匹配除了/n /r 外任何字符
-  
+
   - "*" 匹配0或多次
-  
+
   - \d 数字 \D 非数字 \w 字符下划线 \W 非字符
-  
+
   - 正则表达式内的^表示非,在头用于匹配开头. `/[^abc]/`表示匹配非abc
-  
+
   - ?=xxx 匹配某个字符且该字符后必须跟着xxx
     - abc(?=cde)则可以匹配abccdeabceaf中的第一个abc,因为第一个abc后跟了cde
-  
+
   - {n} : 出现n次
-  
+
     {n,} : 出现n到多次
-  
+
     {n,m} : 出现n到m次
-  
+
   - 
+
   
-  
-  
+
 - 三元运算符将值转成boolean再比较， == === 将值转成number类型再比较
 
   - Boolean([]) =>  true 
@@ -256,8 +276,6 @@
     change(box);
     console.log(color);
     ```
-
-- 
 
 - 值与字符串相加是会进行拼接，字符串和字符串比较会比较ASCll的大小
 
