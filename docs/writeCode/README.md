@@ -160,11 +160,12 @@ q();
 #### 手写bind
 
 ```javascript
-Function.prototype._bind = function (context, ...args1) {
-  let _this = this;
-  return function (...args2) {
-    _this.call(context, ...args1, ...args2)
-  }
+Function.prototype._bind = function (context, ...args) {
+    let that = this;
+    return function () {
+        let res = that.apply(context,[...args]);
+        return res&&res;
+    }
 }
 let o = {name:1};
 function foc(){
