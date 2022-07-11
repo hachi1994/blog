@@ -425,7 +425,103 @@
 
 - 自定义组件必须义大写字母开头：为的是和HTML内置组件进行区分
 
+- `ReactDOM.createPortal(child, container)`函数可以将子节点渲染到存在于父组件以外的DOM节点上,且通过Portal进行事件冒泡时，从portal内部触发的事件会一直冒泡至包含React树的祖先。
 
+  - 由于 portal 仍存在于 *React 树*， 且与 *DOM 树* 中的位置无关，那么无论其子节点是否是 portal，像 context 这样的功能特性都是不变的。
+
+    这包含事件冒泡。一个从 portal 内部触发的事件会一直冒泡至包含 *React 树*的祖先
+
+- `React.isValidElement(object)` 验证对象是否为React元素，返回值为true或false。
+
+- Hook中的useDebugValue可用于在React开发者工具中显示自定义Hook的标签。
+
+- Hook使用规则：
+
+  1.只能在函数最外层调用 Hook，不要在循环、条件判断或者子函数中调用；
+
+  2.只能在React的函数组件或自定义的Hook中调用 Hook，不要在其他 JavaScript 函数中调用。
+
+  3.<span style='color:red;'>React 怎么知道哪个 state 对应哪个 `useState`？答案是 React 靠的是 Hook 调用的顺序，所以如果通过条件语句取消掉了一个useEffect，那么可能导致Hook的顺序发生变化，则产生bug。</span>
+
+- Hook
+
+  - State Hook useState 类似class中的this.setState()，但是它不会把新的 state 和旧的 state 进行合并。
+
+  - Effect Hook 和 class组件中的`componentDidMount`、`componentDidUpdate` 和 `componentWillUnmount` 具有相同的用途。直接调用useEffect()等同于告诉 React 在完成对 DOM 的更改后运行你的“副作用”函数。
+
+  - 如果你的 useEffect 返回一个函数，React 将会在执行清除操作时调用它。
+
+  - useEffect接受第二个参数，为一个数组，传入要监听的数据，当这些数据两次渲染间没有变化则跳过effect阶段
+
+    - ```javascript
+      useEffect(() => {
+        document.title = `You clicked ${count} times`;
+      }, [count]); // 仅在 count 更改时更新
+      ```
+
+    - ```javascript
+      useEffect(() => {
+        return () => {
+          unsubscribeCount()
+        };
+      }, [props.count]);//只有当count不一致时才取消订阅
+      ```
+
+  - 如果想执行只运行一次的 effect，则useEffect第二个参数传入一个空数组。
+
+- 自定义Hook，必须以use开头。
+
+- React的store不存在createStore方法，而应该使用Redux提供的createStore方法。
+
+- React-router
+
+  - Router： react-router 的重要组件，它能保持 UI 和 URL 的同步。
+
+  - RoutingContext：在 context 中给定路由的 state、设置 history 对象和当前的 location，<RoutingContext> 就会去渲染组件树。
+
+  - Link：允许用户浏览应用的主要方式，<Link> 以适当的 href 去渲染一个可访问的锚标签。
+
+    没有内置组件DefaultLink
+
+- 默认情况下不能在函数组件上使用 ref 属性，因为函数组件没有实例。如果要在函数组件中使用 ref，可以使用 forwardRef，或者可以将该组件转化为 class 组件。不管怎样，可以在函数组件内部使用 ref 属性，只要它指向一个 DOM 元素或 class 组件
+
+- StrictMode组件作用跟Fragment组件一样，可以一个组件返回多个元素，并为其后代元素触发额外的检查和警告。
+
+- 在react-router-dom中通常使用的组件有三种路由器组件: 如browserRouter和hashRouter和createMemoryHistory
+
+  路由匹配组件: Route和Switch 组件
+
+  导航组件: Link和NavLink 组件
+
+- 从 DOM 中卸载组件，可以使用`ReactDOM.unmountComponentAtNode()`方法。
+
+- 如果shouldComponentUpdate()返回值为false，则不会调用componentDidUpdate()
+
+- React 支持 onDoubleClick
+
+- react支持的剪贴板事件有onCopy，onCut，onPaste
+
+- ReactDOM.render() 不会修改容器节点（只会修改容器的子节点）。可以在不覆盖现有子节点的情况下，将组件插入已有的 DOM 节点中。
+
+- 错误边界是一种 React 组件，这种组件可以捕获并打印发生在其子组件树任何位置的JavaScript错误
+
+- findDOMNode 只在已挂载的组件上可用（即，已经放置在 DOM 中的组件）。如果你尝试调用未挂载的组件（例如在一个还未创建的组件上调用 render() 中的 findDOMNode()）将会引发异常。
+
+## Redux
+
+- reducer如果不需要做任何工作，它将直接返回的当前状态。
+
+
+
+## Dva
+
+- 数据的改变：dispatch` 发起一个 action，如果是同步行为会直接通过 `Reducers` 改变 `State` ，如果是异步行为（副作用）会先触发 `Effects` 然后流向 `Reducers` 最终改变 `State
+- *State*：State 表示 Model 的状态数据，通常表现为一个 javascript 对象（当然它可以是任何值）；操作的时候每次都要当作不可变数据（immutable data）来对待，保证每次都是全新对象，没有引用关系.
+- *Action*：Action 是一个普通 javascript 对象，它是改变 State 的唯一途径。无论是从 UI 事件、网络回调，还是 WebSocket 等数据源所获得的数据，最终都会通过 dispatch 函数调用一个 action，从而改变对应的数据。
+- *dispatch*：dispatch是一个函数，dispatching function 是一个用于触发 action 的函数，action 是改变 State 的唯一途径，但是它只描述了一个行为，而 dipatch 可以看作是触发这个行为的方式，而 Reducer 则是描述如何改变数据的。
+- *Reducer*：Reducer（也称为 reducing function）函数接受两个参数：之前已经累积运算的结果和当前要被累积的值，返回的是一个新的累积结果。该函数把一个集合归并成一个单值。类似于JavaScript中数组的reduce方法。
+- *Effect*：副作用，异步操作一般就是副作用，因为它使得我们的函数变得不纯，同样的输入不一定获得同样的输出。Dva集成了Redux-saga，使得我们可以通过同步的方式进行异步操作。从而将effects转为纯函数。
+- *Subscription*：subscription 语义是订阅，用于订阅一个数据源，然后根据条件 dispatch 需要的 action。subscription订阅的数据源可以是history的路由变化，当前的时间、服务器的 websocket 连接、keyboard 输入、geolocation 变化等。
 
 ## 浏览器及网络协议
 
