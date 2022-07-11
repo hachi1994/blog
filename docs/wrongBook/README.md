@@ -217,8 +217,6 @@
 
     {n,m} : 出现n到m次
 
-  - 
-
   
 
 - 三元运算符将值转成boolean再比较， == === 将值转成number类型再比较
@@ -241,7 +239,7 @@
 
 - call aplly 传入的上下文是null在非严格情况下是全局。
 
-- 时间循环 同步代码=>异步代码(微任务代码=>宏任务代码)
+- 事件循环 同步代码=>异步代码(微任务代码=>宏任务代码)
 
 - js内置对象 Arguments Math Date Object Array Boolean  Error Function  String RegExp 
 
@@ -346,8 +344,10 @@
 
   - RequireJS遵循AMD规范， Sea.js遵循CMD规范
   - AMD推崇依赖前置，CMD推崇依赖就近
+  
+- arr instanceof 在跨iframe会失效。
 
-
+- 
 
 
 
