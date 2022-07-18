@@ -254,3 +254,78 @@ $$
 ##### $x\rightarrow -\infin时的极限$
 
 <img src="./3.7_5.png" alt="image-20220707233133090" style="zoom:33%;" />
+
+## 求解多项式的极限问题
+
+### 因式分解
+
+$\large (a+b)^2 = a^2 + 2ab + b^2\\ \large (a-b)^2 = a^2-2ab + b^2$
+
+$\large (a-b)(a+b) = a^2 - b^2$
+
+
+
+立方差公式
+
+$\large (a-b)^3 = (a-b)(a^2 + ab + b^2)$ 
+
+### $x\rightarrow a时有理函数的极限$
+
+$\large lim_{x\rightarrow a}{p(x)\over{q(x)}}为有理函数,其中p，q为多项式，且a为一个有限的数。$
+
+#### 直接带入求极限
+
+$\large 求lim_{x\rightarrow -1}{x^2-3x+2\over{x-2}}的极限，可以直接带入x=-1,求出极限为-2。$
+
+#### 因式分解求极限
+
+利用平方差公式
+
+$\large 求lim_{x\rightarrow 2}{x^2-3x+2\over{x-2}}的极限。将{x^2-3x+2}分解为(x-2)(x-3)化简得x-3,再带入x=2，求出极限为1。$
+
+利用立方差公式
+
+$\large 求lim_{x\rightarrow 3}{x^3-27\over{x^4 -5x^3 + 6x^2}}的极限。$
+
+$\large \because x^3 - 27 = (x-3)(x^2 + 3x + 9) \\ \large \because x^4 - 5x^3 + 6x^2 = x^2(x^2 - 5x + 6) = x^2(x-2)(x-3)$
+
+$\large \therefore lim_{x\rightarrow 3}{x^3-27\over{x^4 -5x^3 + 6x^2}} = {{(x^2 + 3x + 9)}\over {x^2(x-2)}} \\ \large \therefore 代入x = 3，lim_{x\rightarrow 3}{x^3-27\over{x^4 -5x^3 + 6x^2}} = 3 $
+
+#### $x\rightarrow a时且分子不为0分母为0的有理函数的极限有四种情况$
+
+<img src="./4.1_1.png" alt="image-20220707233133090" style="zoom:33%;" />
+
+$\large 解决方法为代入 x=a，比较x微微向a左侧和右侧移动一点时，分子分母的比值的正负情况，\\ \large 均为正则为第二种情况，均为负则为第四种情况，负正为第一种情况，正负为第三种情况。$
+
+$\large 例：求 lim_{x \rightarrow 1}{2x^2 -x -6 \over {x(x-1)^2}}的极限。$
+
+$解：代入x=1，为 {-5\over {1*(x-1)^2}}，当x微微向1左侧右侧移动一点时时分子均为(-),分母为(+)(+)，\\ \therefore {(-)\over {(+)(+)}} = (-)即左右极限均为-\infin \therefore lim_{x \rightarrow 1}{2x^2 -x -6 \over {x(x-1)^2}} = -\infin $
+
+
+
+### $x\rightarrow a时平方根的极限$
+
+解法：分子分母同乘其共轭表达式即 $(a-b)(a+b) = a^2 - b^2$
+
+$\large 例：求lim_{x\rightarrow 5}{{\sqrt{x^2-9}}-4\over x-5}$
+
+$解；分子分母同乘\sqrt{x^2-9}+4，得到 {x^2 - 25\over{x-5 * (\sqrt{x^2-9}+4)}}={(x-5) * (x+5)\over{x-5 * (\sqrt{x^2-9}+4)}} \\ \large = {(x+5)\over{(\sqrt{x^2-9}+4)}}$
+
+$\large 代入x=5，则lim_{x\rightarrow 5}{{\sqrt{x^2-9}}-4\over x-5} = {5\over 4}$
+
+
+
+​	
+
+
+
+
+
+
+
+
+
+
+
+
+
