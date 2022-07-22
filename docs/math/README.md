@@ -315,17 +315,44 @@ $\large 代入x=5，则lim_{x\rightarrow 5}{{\sqrt{x^2-9}}-4\over x-5} = {5\over
 
 
 
+### $x\rightarrow \infin时有理函数的极限$	
+
+$\large 对于任意n>0，只要C是常数，就有 lim_{x \rightarrow \infin}{C\over{x^n}} = 0$
+
+$\large 方法：对于有理函数可以分子和分母都乘以除以首项再乘以首项，将除了首项以外的项的x消掉$
+
+$\large 例：求lim_{x\rightarrow \infin}{x-8x^4\over{7x^4+5x^3+2000x^3-6}}$
+
+$\large 解：{{x-8x^4\over{-8x^4}}*(-8x^4)\over{7x^4+5x^3+2000x^2-6\over{7x^4}}*(7x^4)}\\ \because 化简得 {0+1\over{1+0+0-0}}*-{8\over 7} \\ \therefore lim_{x\rightarrow \infin}{x-8x^4\over{7x^4+5x^3+2000x^3-6}} = -{8\over7}$
+
+
+
+
+
+
+
+### $x\rightarrow \infin时多项式型函数的极限$	
+
+
+
+需要结合分子分母除以首项再乘以首项，和同乘共轭表达式来解。
+
+$\large 例： 求 lim_{x\rightarrow \infin}{\sqrt{4x^6-5x^5}-2x^3\over{\sqrt[3]{27x^6+8x}}}$
+
+
+
+<img src="https://math-lhc.obs.cn-east-2.myhuaweicloud.com/4.4_1.jpg" alt="image-20220707233133090" style="zoom: 25%;" />
+
 ​	
 
+### $x\rightarrow -\infin时有理函数的极限$	
 
+$\large 形如lim_{x\rightarrow -\infin}{p(x)\over{q(x)}}$
 
+<span style="color:red;font-weight:900">注意：x=>负无穷时，进行平方根，偶数次方根时要注意正负号。</span>
 
+$\large 例：求lim_{x\rightarrow -\infin}{\sqrt{4x^6+8}\over{2x^3+6x+1}}$
 
+<img src="https://math-lhc.obs.cn-east-2.myhuaweicloud.com/4.5_1.png" alt="image-20220707233133090" style="zoom: 25%;" />
 
-
-
-
-
-
-
-
+$\color{Red}\large x<0时，并且想写\sqrt[n]x^{某次幂} = x^m,那么需要在x^m前加负号的情况是n是偶数，且m为奇数。 $
