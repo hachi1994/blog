@@ -356,3 +356,36 @@ $\large 例：求lim_{x\rightarrow -\infin}{\sqrt{4x^6+8}\over{2x^3+6x+1}}$
 <img src="https://math-lhc.obs.cn-east-2.myhuaweicloud.com/4.5_1.png" alt="image-20220707233133090" style="zoom: 25%;" />
 
 $\color{Red}\large x<0时，并且想写\sqrt[n]x^{某次幂} = x^m,那么需要在x^m前加负号的情况是n是偶数，且m为奇数。 $
+
+## 连续
+
+$\large 定义：lim_{x\rightarrow a} = f(a)，则函数f在x=a处连续。$
+
+$\large 若函数在某一点连续，则该函数在该点必须有定义且有限（f(a)存在且有限），\\ \large 且a点处的双侧极限存在（lim_{x\rightarrow a}），且两项相等（lim_{x\rightarrow a} = f(a)）$
+
+
+
+### $在一个区间上连续$
+
+$\large 定义：如果函数f在[a,b]上连续，则有\\ $
+
+1. $\large 函数f在(a,b)中每一点都连续$
+2. $\large 函数f在a处右连续，即lim_{x\rightarrow a+} = f(a)$
+3. $\large 函数f在b处左连续，即lim_{x\rightarrow b-} = f(b)$
+
+### 连续函数例子
+
+1. $\large f(x) = 1$
+
+$\large 证明f(x) = 1的常数函数对于所有x，在任意一点a都连续。则要证明lim_{x\rightarrow a}f(x) = f(x)$
+
+$\large lim_{x\rightarrow a}1 = 1显然成立，所以f(x) = 1的常数函数对于所有x，在任意一点a都连续。$
+
+
+
+2.$\large g(x) = x$
+
+$\large 证明g(x) = x的常数函数对于所有x，在任意一点a都连续。则要证明lim_{x\rightarrow a}g(x) = g(x)$
+
+$\large lim_{x\rightarrow a}x = x显然成立，所以g(x) = x所有x，在任意一点a都连续。$
+
