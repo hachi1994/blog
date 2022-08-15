@@ -100,8 +100,6 @@
 
 - null和undefined可以 == 返回true,但是其本身与任何其他值==都返回false
 
-- js中分母为零不会抛出错误而是返回NaN.
-
 - while是微任务,setTimeout是宏任务,微任务优先宏任务执行.
 
 - `let f = (a=a)=>a`等于用a去赋值a,如果调用`f()`,此时a并未被初始化,所以会报错.
@@ -110,7 +108,7 @@
 
 - +运算符与非数值运算,会将非数值转成数值在计算,null=>0 undefined => NaN 
 
-- 0/0,NaN/0结果为NaN,其他值/0均为Infinite.
+- 0/0,NaN/0结果为NaN,其他值/0均为Infinite.不会抛出错误
 
 - `var a = b = 1`等同于`var a = b;b=1;`
 
