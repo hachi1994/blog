@@ -9,6 +9,26 @@ categories:
 
 # C++学习
 
+## 面向对象的语言
+
+### 出发点
+
+**更直接地描述客观世界中存在的事物对象以及它们之间的关系**
+
+### 特点
+
+**1.是高级语言。**
+
+**2.将客观事物看作具有属性和行为的对象。**
+
+**3.通过抽象找出同一类对象的共同属性和行为，形成类。**
+
+**4.通过类的继承与多态实现代码重用**
+
+### 优点
+
+**使程序能够比较直接地反映问题域的本来面目，软件开发人员能够利用人类认识事物所采用的一般思维方法来进行软件开发。**
+
 ## 面向对象
 
 ### 对象
@@ -259,4 +279,177 @@ $X= +0 ---- [X]_{原} = 0000 0000 ---- [X]_{反} = 0000 0000 ----[X]_{补} = 000
 
   比如64 + 64 = 1000 0000 结果是负数，显然是不正确的，这是因为溢出了。
 
-  
+
+
+
+## C++简单程序设计
+
+### 字符集
+
+**字符集是构成ｃ＋＋语言的基本元素**
+
+- 英文字母：A-Z a-z
+- 数字字符：0-9
+- 特殊符号：空格 * & %￥#@（）_等等
+
+
+
+### 词法记号
+
+#### 关键字
+
+ C++预定义的单词。是指C++中有特殊含义的字，是不能重 新定义的。程序员不可用之作为自己定义的变量或函数的名字。
+
+#### 标识符
+
+是程序员定义的单词，它命名程序正文中的一些实体，如函数名、变量名、类名、对象名等
+
+
+
+以大写字母、小写字母或下划线（_）开始
+
+可以由以大写字母、小写字母、下划线(_)或数字0~9组成。
+
+大写字母和小写字母代表不同的标识符。
+
+不可以是C++中的关键字或操作符
+
+#### 文字
+
+程序中直接使用符号表示的数据，包括数字、字符、字符串和布尔文字。
+
+#### 操作符（运算符）
+
+用于实现各种运算的符号，如+ - * /等。
+
+#### 分隔符
+
+() {} , ; :等用于构造程序，不表示任何操作。
+
+#### 空白
+
+
+
+### 基本数据类型和表达式
+
+#### 基本数据类型
+
+<img src='https://zardluansource.obs.cn-east-2.myhuaweicloud.com:443/c%2B%2B_dataType.png?AccessKeyId=50DZUYKLILAA6R9KR0S7&Expires=1661241379&response-content-disposition=inline&response-content-type=application/octet-stream&versionId=null&x-obs-security-token=gQpjbi1ub3J0aC00iuYTNCYayzPLG_CgwHUdh3LmsU7hOL4bplmkUV9V8ddVr0AXawHcpUnyjc993jGoqjtHqfQktJlv6NbcSAEogFM9iuPgEYYD4O2IV1aeGvl4wJ3b6ZYNKeOKruJ7XFNydXhBif4iM47hi7Vl2AXuTraNSxS_XGf0ZC765ZaEERgyPCnsoYKzPpVtPTgXgMEzdYXbUS98I65QulMiHP-lRqPPtw8dgnJB6h2yVvzKslVQA-MS2mjZ9H4pa20PFBAlJPzVuaRSjSPD74bPJ2SD9_HSWRuVPiraHU6Da5ROP8TwduY8OhNBeQjnCUK9GkYR1A4_0b1Eg2fI5DsW_hTbi0aYgaQzZM76NxbHp_jwtl8SJ8mB_OV6bNLliUFnTFx_bbZPOUL_xNkKUVj_DzzIdyxs53kpX38CioYolmeMCNezTFKUYmBMuvHuHYto6jy8rhTBOCElI90Qz9RkCIglB3M2RtUUzzHkUCgZmUo6yyQ_oYckZD1TZbW0NTXiEGGKbqIfKnUn88nkppXSuszvo_qUOpu5HaYh08K7w6_gMN0XNABhmGj4to_4sJ5Y-5SQO9obKq2ChhP6F8lYvz_4cOK0OF7J9kYH3NFg9xoiD1dzNC_dxpGI7NtUWSeY1UeDCWm1UM36XfLfAERxw9mYS2ZXjtdCyXGbDLvDnYD0FANBEzIPugHLnW7dZbg_TBnp9xKSYUZ-dBHDJiQDcn1ejshIi0g4g7LSJS9By5iUdPOS-6lXWbZ83BfYQmppb14J7VCw4Jtvfgk7wF5iVhI0rooyo5m1cIjkl22gKi7gHDhkMQODxy3t8XY0aPkWE1aulQ%3D%3D&Signature=2jq933j4q58vraMhDOKn33oX02Q%3D'>
+
+用sizeof可以判断数据类型的字节长度。
+
+```c++
+cout <<sizeof(long) <<endl;
+```
+
+
+
+
+
+#### 常量
+
+常量分为整型常量，实型常量，字符常量，字符串常量。
+
+##### 整形常量即以文字形式出现的整数
+
+| 整形常量类型 | 表达形式 | 是否有正负 |
+| ------------ | -------- | ---------- |
+| 十进制       | 100      | 有正负     |
+| 八进制       | 01667    | 只有正     |
+| 十六进制     | 0xB7     | 只有正     |
+
+##### 实行常量
+
+即以文字形式出现的实数，又称浮点型。
+
+| 实行常量类型 | 表达形式 |
+| ------------ | -------- |
+| 一般形式     | 0.125    |
+| 指数形式     | 125e5    |
+
+****
+
+**指数形式的书写。E或e的前面必须要有数字，且E后面的指数必须为整数。**
+
+**一个实型常数缺省说明为double,如表示float型，则在实数后加f或F。如34.5f**
+
+##### 字符常量
+
+单括号引起来的一个字符例如'A'。
+
+或者转义字符
+
+**字符数据与整型数据之间可以互相赋值，互相运算**
+
+````c++
+int a = 'c';
+char c = 97;
+````
+
+##### 字符串常量
+
+**字符串型常量是用双引号括起来的一个或多个字符。**
+
+
+
+##### 布尔常量
+
+**布尔型常量只有两个取值true和false**
+
+
+
+##### 符号常量
+
+````
+#define PI 3.141;
+using namespace std;
+
+
+int main()
+{
+    float f = 1.0f*PI;
+    printf("%f",f);
+
+    return 0;
+}
+````
+
+
+
+**PI就是符号常量，PI的值在一开始就被预处理命令“#define"定义为实数3.14159了,故程序在运行和编译时会自动用"3.14159"来代替PI**
+
+
+
+#### 变量
+
+**变量在使用之前需要先声明其类型和名称。**
+
+````c++
+int a,b,c;
+a = 10;
+b = 20;
+c = 30;
+````
+
+##### 变量的定义
+
+存储属性 类型区分符 变量名 , ;或者赋初值
+
+##### 变量的存储属性
+
+- auto 存储类 属于一时性存储，其存储空间可以被若干变量多次覆盖使用
+- register 存储类，存储于寄存器中
+- extern 存储类，在所有函数和程序段中都能使用
+- static 存储类，在内存中是以固定地址存放的，在整个程序运行期间都有效。
+
+
+
+##### 声明方式
+
+````c++
+static int a,b,c;
+a = 10;
+b = 20;
+c = 30;
+````
+
