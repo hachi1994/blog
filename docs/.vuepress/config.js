@@ -161,9 +161,17 @@ module.exports = {
   },
   configureWebpack: {
     module: {  // 所有第三方文件模块的匹配规则
-      rules:[  // 文件后缀名的匹配规则
-          {test:/\.jpg|JPG|png|gif$/,use:'url-loader?limit=22229'}
+      rules: [  // 文件后缀名的匹配规则
+        {
+          test: /\.jpg|JPG|png|gif$/,
+          loader: 'url-loader',
+          options: {
+            esModules: false,
+            name: '[name].[ext]',
+            limit: 10240
+          }
+        }
       ]
-  }
+    }
   }
 }
