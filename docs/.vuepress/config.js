@@ -168,7 +168,7 @@ module.exports = {
           options: {
             esModules: false,
             name: '[name].[ext]',
-            limit: 10240
+            //limit: 10240
           }
         }
       ]
