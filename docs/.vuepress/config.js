@@ -158,5 +158,12 @@ module.exports = {
       // { text: '百度', link: 'https://www.baidu.com' },
       // { text: 'TimeLine', link: '/timeline/', icon: 'reco-date' }
     ]
+  },
+  configureWebpack: {
+    module: {  // 所有第三方文件模块的匹配规则
+      rules:[  // 文件后缀名的匹配规则
+          {test:/\.jpg|JPG|png|gif$/,use:'url-loader?limit=22229'}
+      ]
+  }
   }
 }
